@@ -1,0 +1,468 @@
+@font-face{ 
+	font-family: 'Aperture';
+	src: url('din1451alt.eot');
+	src: url('din1451alt.eot?#iefix') format('embedded-opentype'),
+	     url('din1451alt.woff') format('woff'),
+	     url('din1451alt.ttf') format('truetype'),
+	     url('din1451alt.svg#din1451alt') format('svg');
+}
+html, body {
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background: url("images/debut_light.png") repeat;
+}
+#header {
+	background: url("images/header_bg.jpg");
+	/*width: 100%;*/
+	height: 92px;
+	min-width: 960px;
+}
+#header_left, #header_right {
+	height: 92px;
+}
+#header_left {
+	float: left;
+	padding: 0px 0px 0px 32px;
+	position: relative;
+	min-width: 600px;
+}
+#header_right {
+	float: right;
+	display: table;
+	margin-right: 45px;
+}
+
+#sitetitle {
+	font-family: Arial;
+	font-size: 24px;
+	color: #4b4b4b;
+	letter-spacing: -2px;
+	float: left;
+	position: relative;
+	top: -4px;
+}
+#navigation {
+	height: 29px;
+	display: block;
+	position: absolute;
+	top: 50px;
+	left: 23px;
+}
+#navigation a {
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+	color: #3d3d3d;
+	text-decoration: none;
+	display: inline-block;
+}
+.nav_icons {
+    background: url("images/icon1.jpg");
+    width: 29px;
+    height: 29px;
+    float: left;
+    display: inline-block;
+    margin: -7px 10px 0px 10px;
+}
+#coop_icon {
+	background: url("images/icon2.jpg");
+}
+#ch_icon {
+	background: url("images/icon3.jpg");
+}
+#lp_icon {
+	background: url("images/icon4.jpg");
+}
+#loginsteam {
+	display: block;
+	width: 154px;
+	height: 23px;
+	background: url("images/signsteam.png");
+	float: left;
+	margin: 15px 25px 0px 0px;
+}
+#userinfo {
+	height: 49px;
+	display:table-cell; 
+	vertical-align:middle;
+	/* shit will not work in IE */
+}
+#seper {
+	height: 49px;
+	width: 2px;
+	background: #3096d1;
+	float: left;
+}
+#edition {
+	float: left;
+	font-family: Arial;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 14px 0px 0px 15px;
+	color: #4f4f4f;
+}
+.avatar {
+	float: left;
+	width: 32px;
+	height: 32px;
+	margin: 8px 15px 0px 5px;
+}
+#welcome {
+	float: left;
+	font-family: Tahoma, Arial;
+	font-size: 11px;
+	color: #424242;
+	text-align: right;
+	margin: 8px 10px 0px 15px;
+}
+.threelines {
+	margin: 0px 10px 0px 15px !important;
+}
+#welcome .firstline {
+	font-weight: bold;
+}
+.chamber {
+	display: block;
+	width: 264px;
+	height: 339px;
+	background: #f0f0f0;
+	border-bottom: 2px solid #c3c3c3;
+	float: left;
+	margin: 10px 0px 10px 20px;
+}
+.chamber.leastportals {
+	height: 149px;
+}
+.chamber.leastportals .chamberimage {
+	border-bottom: 3px solid #3096d1;
+}
+.portalsused {
+	text-align: center;
+	margin-top: 55px;
+	color: #e1e1e1;
+	font-size: 20px;
+	font-family: Arial;
+	font-weight: bold;
+	text-shadow: 0px 0px 3px #000000;
+    filter: dropshadow(color=#000000, offx=0, offy=0);
+}
+.portalamount {
+	display: inline-block;
+	font-size: 34px;
+	position: relative;
+	top: 3px;
+}
+.chambers {
+	margin: 30px 0px 0px 0px;
+	float: left;
+	clear: both;
+}
+.chamberinfo {
+	width: 264px;
+	height: 149px;
+}
+.chamberimage {
+	border-top: 3px solid #3096d1;
+	width: 264px;
+	height: 149px;
+}
+.chambertitle {
+	height: 34px;
+	float: right;
+}
+.titlebg {
+	background: url("images/chamber_title_bg.jpg");
+	height: 26px;
+	font-family: "Aperture";
+	font-size: 16px;
+	color: #565656;
+	text-transform: capitalize;
+	float: right;
+	padding: 8px 10px 0px 6px;
+}
+.titlebg a {
+	color: #565656;
+	text-decoration: none;
+}
+.titlebg a:hover {
+	text-decoration: underline;
+}
+.titlebghelper {
+	background: url("images/titlebghelper.png");
+	width: 20px;
+	height: 34px;
+	float: left;
+}
+.chamber_scores .firstplace {
+	height: 37px;
+	background: #dcdcdc;
+	color: #3e3e3e;
+	font-weight: bold;
+}
+.chamber_scores {
+	width: 264px;
+	font-family: Arial;
+	font-size: 12px;
+	text-transform: uppercase;
+}
+.chamber_scores .firstplace .entry .name {
+	float: left;
+	padding: 11px 0px 0px 17px;
+}
+.chamber_scores .firstplace .entry .score {
+	float: right;
+	padding: 11px 16px 0px 0px;
+}
+.chamber_scores .firstplace .entry {
+	font-size: 12px;
+	padding: 0px 0px 0px 0px;
+}
+.chamber_scores .entry {
+	width: 264px;
+	float: left;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 3px 0px 3px 0px;
+}
+.chamber_scores .entry .name {
+	float: left;
+	padding: 0px 0px 0px 15px;
+}
+.chamber_scores .entry .score {
+	float: right;
+	padding: 0px 17px 0px 0px;
+}
+.chamber_scores .othernoobscores {
+	margin: 6px 0px 0px 0px;
+	color: #3e3e3e;
+}
+.icons {
+	width: 16px;
+	height: 16px;
+	display: block;
+	float: right;
+	margin: 0px 5px 0px 0px;
+}
+.youtube_icon {
+	background: url("images/youtube_icon.png");
+}
+.steam_icon {
+	background: url("images/steam_icon.png");
+}
+.chamber_icons {
+	position: relative;
+	top: 92px;
+	left: -6px;
+}
+.chapternumber, .chaptername {
+	font-family: "Aperture";
+	font-size: 20px;
+	color: #3e88b3;
+	text-transform: uppercase;
+}
+.chaptername {
+	font-size: 40.5px;
+	margin-top: -20px;
+}
+.chapterinfo {
+	height: 45px;
+	margin: 15px 0px 15px 20px;
+	clear: both;
+	float: left;
+}
+#wrapper {
+	min-height: 100%;
+	min-width: 980px;
+}
+#content {
+	overflow: hidden;
+	float: left;
+	padding-bottom: 56px;
+	/* DIFFERENT IN CHANGELOG, NUCLEAR */
+	min-width: 100%;
+
+}
+#footer {
+	background: url("images/footerbg.jpg") repeat;
+	margin-top: -56px;
+	height: 35px;
+	clear: both;
+	font-family: Tahoma, Arial;
+	font-size: 11px;
+	color: #4c4c4c;
+	padding: 21px 20px 0px 20px;
+}
+.footerleft {
+	float:left;
+}
+.footeright {
+	float: right;
+}
+#filters {
+	width: 98%;
+	height: 30px;
+	background: green;
+	margin: 30px auto;
+	height: 96px;
+	border: 1px solid #94bec8;
+	background: #ededed;
+	font-family: Tahoma, Arial;
+	font-size: 11px;
+	font-weight: bold;
+	color: #4b4b4b;
+}
+#filter_instructions_lol {
+	margin: 5px 0px 5px 10px;
+}
+input, label {
+	display: block;
+}
+label {
+	font-weight: normal;
+	margin: 0px 0px 5px 2px;
+}
+input[type=text] {
+	height: 27px;
+	font-family: Tahoma, Arial;
+	font-size: 11px;
+	border: 1px solid #c2cbd0;
+	background: #e5e5e5;
+	padding-left: 5px;
+}
+.input {
+	margin: 10px 10px 0px 12px;
+}
+.checkbox {
+	display: block;
+	width: 21px;
+	height: 21px;
+	background:url("images/unticked.png");
+	cursor: pointer;
+	text-align: center;
+	margin: 7px auto;
+}
+.ticked {
+	background:url("images/ticked.png");
+}
+.check {
+	margin: 10px 0px 0px 20px;
+	font-weight: normal;
+}
+input[type=submit] {
+	background: url("images/filterbutton.png");
+	width: 70px;
+	height: 28px;
+	border: 0;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 11px;
+	font-family: Tahoma, Arial;
+	color: #7b7b7b;
+}
+#changelog {
+	width: 98%;
+	background: green;
+	margin: 30px auto;
+	font-family: Tahoma, Arial;
+	font-size: 11px;
+	min-width: 960px;
+}
+#changelog #firstentry {
+	background: #dadada;
+	border-top: 2px solid #5597bd;
+	border-bottom: 1px solid #adadad;
+	height: 41px;
+	font-weight: bold;
+}
+#otherentries .entry {
+	width: 100%;
+	background: #ededed;
+	height: 41px;
+	border-bottom: 1px solid #a9a9a9;
+}
+#otherentries:nth-child(2) {
+	background: #e6e6e6;
+}
+.time, .player, .map, .chapter, .newscore, .previousscore, .worldrecord {
+	height: 29px;
+	float: left;
+	padding: 12px 0px 0px 10px;
+}
+.time {
+	padding: 12px 0px 0px 20px;
+}
+.time, .player, .map, .chapter {
+	width: 15%;
+}
+.newscore, .previousscore, .worldrecord {
+	width: 10%;
+}
+.wr {
+	background: url("images/wr.png");
+	width: 20px;
+	height: 20px;
+	margin: 0 auto;
+}
+.worldrecord {
+	text-align: center;
+}
+#changelog_download {
+	float: right;
+	margin: 0px 10px 0px 0px;
+	font-size: 10px;
+	color: #858585;
+}
+.normalcontent {
+	float: left;
+	margin: 20px 0px 0px 22px;
+	font-family: Arial;
+	font-size: 12px;
+	width: 960px;
+	clear: both;
+}
+.normalcontent * {
+	margin: 10px 0px 0px 0px;
+}
+#donate a {
+	font-size: 10px;
+	font-weight: bold;
+	color: #7c7c7c;
+}
+.twoplayers {
+    width: 190px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    direction: ltr;
+    display: inline-block;
+    height: 14px;
+    white-space: nowrap;
+}
+.changes_entry {
+	font-weight: bold;
+}
+.changes_info {
+	margin-left: 30px;
+}
+.plsgibmoni {
+	width: 95%;
+	height: 25px;
+	margin: 15px auto;
+	background: #F0F0F0;
+	border: 1px solid #A1B9C9;
+	color: #474747;
+	font-size: 11px;
+	font-family: Tahoma, Arial;
+	padding: 12px 0px 0px 20px;
+}
+.plsgibmoni a {
+	color: #6B6B6B;
+	font-weight: bold;
+}
+.highlight {
+	color: #3e88b3;
+}
+.chamber_scores .firstplace .entry.highlight {
+	color: #3484B3;
+}
