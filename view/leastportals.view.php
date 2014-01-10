@@ -71,7 +71,7 @@ $(document).ready(function() {
 
 
 				<div class="chamber leastportals">
-				<div class="chamberimage" style="background: url('/chambers/<?=$chamb_val[1];?>.jpg')">
+				<div class="chamberimage" style="background: url('/images/chambers/<?=$chamb_val[1];?>.jpg')">
 					<div class="chambertitle">
 						<div class="titlebghelper"></div>
 						<div class="titlebg"><a href="http://steamcommunity.com/stats/Portal2/leaderboards/<?=$chamb_val[0];?>"><?=$chamb_key; ?></a></div>

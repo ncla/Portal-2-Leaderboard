@@ -89,7 +89,7 @@ $(document).ready(function() {
  
 	<div id="content">
 		<div id="chamber">
-			<div class="chamberview" style="background-image: url('/chambers_full/<?=$_GET['id'];?>.jpg')">
+			<div class="chamberview" style="background-image: url('/images/chambers_full/<?=$_GET['id'];?>.jpg')">
 				<a class="previous_map" href="/chamber/<?=$content[2];?>"></a>
 				<a class="next_map" href="/chamber/<?=$content[3];?>"></a>
 				<div class="chamberinfo">

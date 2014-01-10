@@ -7,7 +7,7 @@
 // Unbuffered queries?
 // scores table remove last_changed?
 	class database extends mysqli {
-		public function __construct($host = 'localhost', $user = 'root', $pass = 'Tru!Ed2J', $db = 'leaderboard') {
+		public function __construct($host = 'localhost', $user = 'root', $pass = 'root', $db = 'ncla_db') {
         	parent::__construct($host, $user, $pass, $db);
         	if ($this->connect_errno) { // ummm, connect_errno vai mysql_errno?
 				trigger_error($this->connect_error);

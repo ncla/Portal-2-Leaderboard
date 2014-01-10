@@ -67,7 +67,7 @@ $(document).ready(function() {
 
 
 				<div class="chamber">
-				<div class="chamberimage" style="background: url('/chambers/<?=$chamb_val[0];?>.jpg')">
+				<div class="chamberimage" style="background: url('/images/chambers/<?=$chamb_val[0];?>.jpg')">
 					<div class="chambertitle">
 						<div class="titlebghelper"></div>
 						<div class="titlebg"><a href="/chamber/<?=$chamb_val[0];?>"><?=$chamb_key; ?></a></div>
