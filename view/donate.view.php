@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" type="text/css" href="/style.css"></link>
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<?php if($pro): ?>
+<?php if($this->pro): ?>
 <script type="text/javascript">
 $(document).ready(function() {
 	$(".youtube_icon").click(function() {

@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" type="text/css" href="/style.css"></link>
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<?php if($pro): ?>
+<?php if($this->pro): ?>
 <script type="text/javascript">
 $(document).ready(function() {
 	$(".youtube_icon").click(function() {
@@ -68,7 +68,7 @@ $(document).ready(function() {
 
 <div id="footer">
 	<div class="footerleft">Developed and designed by Nuclear, with minor help from @sNuuFix</div>
-	<div class="footeright">This page was generated in <?php echo microtime(true) - $moo_time; ?> seconds</div>
+	<div class="footeright">This page was generated in <?php echo microtime(true) - $this->exec_time; ?> seconds</div>
 </div>
 
 </body>
