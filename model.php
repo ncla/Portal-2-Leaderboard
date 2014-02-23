@@ -7,7 +7,7 @@
 // Unbuffered queries?
 // scores table remove last_changed?
 	class database extends mysqli {
-		public function __construct($host = 'localhost', $user = 'root', $pass = 'root', $db = 'ncla_db') {
+		public function __construct($host = 'localhost', $user = 'root', $pass = 'Tru!Ed2J', $db = 'leaderboard') {
         	parent::__construct($host, $user, $pass, $db);
         	if ($this->connect_errno) { // ummm, connect_errno vai mysql_errno?
 				trigger_error($this->connect_error);
@@ -22,20 +22,32 @@
 			return $bob;
 		}
 	}
+    class BoardCache {
+        public static function getBoard() {
+            if(apc_exists("board")) {
+                return apc_fetch("board");
+            }
+            else {
+                new Leaderboard;
+                return apc_fetch("board");
+            }
+        }
+        public static function setBoard($board) {
+            apc_store("board", $board);
+        }
+    }
 	class Leaderboard {
 		
 		protected $db, $leaderboard_ids;
 
+        public $topEntryAmount = 20;
+
 		public function __construct() {
 			$this->db = new database;
-			$this->leaderboard_ids = $this->get_map_ids();
-			try {
-				$thisnotgood = $this->get_data($this->leaderboard_ids);
-				$this->save_data($thisnotgood);	
-			} catch (Exception $e) {
-				echo $e->getMessage();
-			}
 
+		    $newBoardData = $this->get_data($this->returnCheatedBoardCount());
+
+            $this->save_data($newBoardData);
 		}
 
 		protected function get_map_ids() {
@@ -50,7 +62,7 @@
 		public static function get_map_names($mode = 0) {
 			$tt = microtime(true);
 			$db = new database;
-			$data = $db->query("SELECT steam_id, name, chapter_id FROM maps WHERE maps.is_coop = '{$mode}' ORDER BY maps.id");
+			$data = $db->query("SELECT steam_id, name, chapter_id FROM maps ORDER BY maps.id");
 			$maps = array();
 			while($haha = $data->fetch_assoc()) {
 				$maps[$haha["steam_id"]] = $haha["name"];
@@ -78,6 +90,13 @@
 			}
 			return $shitlist;
 		}
+        public function getPlayerNicknames() {
+            $data = $this->db->query("SELECT profile_number, nickname FROM players WHERE nickname IS NOT NULL");
+            while($row = $data->fetch_assoc()) {
+                $nicknames[$row["profile_number"]] = $row["nickname"];
+            }
+            return $nicknames;
+        }
 		public static function convert_valve_derp_time($time) {
 			if(strlen($time) > 2) {
 				$reversed = strrev($time);
@@ -105,7 +124,13 @@
 			}
 			return $time;
 		}
-		protected function save_into_changelog($changes) {
+
+        /**
+         * Writes changes into database table `changelog`
+         *
+         * @param $changes Changelog array
+         */
+        protected function save_into_changelog($changes) {
 			$moo_time = microtime(true);
 			$data = $this->db->query("SELECT score, map_id
 						FROM (
@@ -143,37 +168,33 @@
 			echo "<b>Changelogging function:</b> ".$total_moo_time."s</br>";
 
 		}
-		protected function get_data($ids) {
+
+        /**
+         * Gets data for specified leaderboards
+         *
+         * @param $ids Array of Steam leaderboard ids and amount of entries needed to fetch
+         * @return array Steam API returned data
+         * @throws Exception cURL or SimpleXML errors
+         */
+        protected function get_data($ids = array()) {
 			$moo_time = microtime(true);
 
-			$data = $this->db->query("SELECT map_id, curl FROM exceptions");
-			$exceptions = array();
-			while($row = $data->fetch_assoc()) {
-				$exceptions[$row['map_id']] = $row['curl'];
-			}
-
-
 			$curl_master = curl_multi_init();
-			
 			$curl_handles = array();
 			
-			foreach($ids as $key => $value) {
-				$curl_handles[$key] = curl_init();
-				$amount = 18;
-				if(isset($exceptions[$value])) {
-					$amount = $exceptions[$value];
-				}
-				curl_setopt($curl_handles[$key], CURLOPT_URL, "http://steamcommunity.com/stats/Portal2/leaderboards/".$value."?xml=1&start=1&end=".$amount);
-				curl_setopt($curl_handles[$key], CURLOPT_HEADER, 0);
-				curl_setopt($curl_handles[$key], CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($curl_handles[$key], CURLOPT_HTTPHEADER, array(
+			foreach($ids as $mapID => $amount) {
+				$curl_handles[$mapID] = curl_init();
+				curl_setopt($curl_handles[$mapID], CURLOPT_URL, "http://steamcommunity.com/stats/Portal2/leaderboards/".$mapID."?xml=1&start=1&end=".$amount);
+				curl_setopt($curl_handles[$mapID], CURLOPT_HEADER, 0);
+				curl_setopt($curl_handles[$mapID], CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl_handles[$mapID], CURLOPT_HTTPHEADER, array(
 				    'Connection: Keep-Alive',
 				    'Keep-Alive: 300'
 				));
-				curl_setopt($curl_handles[$key], CURLOPT_SSL_VERIFYPEER, FALSE);
+				curl_setopt($curl_handles[$mapID], CURLOPT_SSL_VERIFYPEER, FALSE);
 
 
-				curl_multi_add_handle($curl_master, $curl_handles[$key]);
+				curl_multi_add_handle($curl_master, $curl_handles[$mapID]);
 			}
 			
 			$active = null;
@@ -196,9 +217,9 @@
 
 			$xml_total = 0;
 
-			foreach($ids as $key => $value) {
-				curl_multi_remove_handle($curl_master, $curl_handles[$key]);
-				$curlgetcontent = curl_multi_getcontent($curl_handles[$key]);
+			foreach($ids as $mapID => $amount) {
+				curl_multi_remove_handle($curl_master, $curl_handles[$mapID]);
+				$curlgetcontent = curl_multi_getcontent($curl_handles[$mapID]);
 				//var_dump($curlgetcontent);
 				$xml = microtime(true);
 				try { 
@@ -222,7 +243,7 @@
 					foreach($val2 as $d => $b) {
 						$steamid = $b->steamid;
 						$score = $b->score;
-						$data[$ids[$key]][(string)$steamid] = (string)$score;
+						$data[$mapID][(string)$steamid] = (string)$score;
 					}
 				}
 				$tt = microtime(true) - $xml;
@@ -238,9 +259,13 @@
 			//var_dump($data);
 			return $data;		
 		}
-		
-		protected function save_data($data_to_load) {
 
+        /**
+         * Updates database and prepares changelog array for changelogging
+         *
+         * @param $data_to_load Data passed from Steam API, not filtered
+         */
+        protected function save_data($data_to_load) {
 			$moo_time = microtime(true);
 			
 			$db_data = $this->db->query("SELECT profile_number, score, map_id FROM scores");
@@ -274,47 +299,31 @@
 			}
 			$total_moo_time = microtime(true) - $moo_time;
 			if(count($changelog) > 0) {
-				$this->save_into_changelog($changelog);
+				//$this->save_into_changelog($changelog);
 			}
 			echo "<b>DB queries:</b> ".$total_moo_time."s</br>";
 		}
-		public static function return_leaderboards($mode = 0, $amount = 8) {
-			$moo_time = microtime(true);
+
+		public function returnCheatedBoardCount() {
 			$db = new database;
-			$data = $db->query("SELECT IFNULL(p.nickname, s.profile_number) AS player_name, s.score, s.map_id, maps.chapter_id, chapters.chapter_name 
-								FROM (
-										SELECT profile_number, score, map_id, legit
-										FROM ( 
-												SELECT 
-												profile_number, score, map_id, legit,
-												IF( @prev <> map_id, @rownum := 1, @rownum := @rownum+1 ) AS rank, 
-												@prev := map_id
-													FROM scores
-												JOIN (SELECT @rownum := NULL, @prev := 0) AS r 
-												
-												WHERE profile_number IN (SELECT profile_number FROM players WHERE banned = 0)
-												AND legit = '1'
-												ORDER BY map_id, score
-										) AS tmp 
-										WHERE tmp.rank <= '{$amount}' 
-								) s
-								JOIN players p
-								ON s.profile_number = p.profile_number
-								INNER JOIN maps ON maps.steam_id = s.map_id 
-								INNER JOIN chapters ON maps.chapter_id = chapters.id
-								WHERE maps.is_coop = '{$mode}'
-								ORDER BY maps.id ASC, s.score ASC, s.profile_number ASC
+			$data = $db->query("SELECT score, scores.profile_number, map_id
+                                FROM scores
+                                INNER JOIN maps ON scores.map_id = maps.steam_id
+                                LEFT JOIN players ON scores.profile_number = players.profile_number
+                                WHERE legit = '0' OR players.banned = '1'
+                                ORDER BY maps.id
 						        ");
 
 			$leaderboard = array();
-
 			while ($row = $data->fetch_assoc()) {
-				$leaderboard[$row["chapter_name"]][$row["map_id"]][] = array($row["player_name"], self::convert_valve_derp_time($row["score"]));
+				$leaderboard[$row["map_id"]][] = array($row["profile_number"], $row["score"]);
 			}
-			$total_moo_time = microtime(true) - $moo_time;
-			//echo "<b>Return Leaderboard query:</b> ".$total_moo_time."s</br>";
-			return $leaderboard;
+            foreach($leaderboard as $mapID => $scores) {
+                $cheatedAmount[$mapID] = count($scores) + $this->topEntryAmount + 2;
+            }
+            return $cheatedAmount;
 		}
+
 		public static function return_leaderboards_new($mode = "0", $amount = "8") {
 			$db = new database;
 			/* Prepared statement, stage 1: prepare */
@@ -325,12 +334,6 @@
 											ORDER BY maps.id"))) {
 			     echo "Prepare failed: (" . $db->errno . ") " . $db->error;
 			}
-
-			/* Prepared statement, stage 2: bind and execute */
-			// $id = 1;
-			// if (!$stmt->bind_param("i", $id)) {
-			//     echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-			// }
 
 			if (!$stmt->execute()) {
 			    echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
@@ -405,7 +408,7 @@
 								AND legit = '1'
 								AND p.banned = '0'
 								ORDER BY s.score ASC, s.profile_number ASC
-								LIMIT 15
+								LIMIT 20
 						        ");
 
 			while ($row = $data->fetch_assoc()) {
@@ -465,6 +468,34 @@
 			//echo "<b>Changelog query:</b> ".$total_moo_time."s</br>";
 			return $changelog;
 		}
+		public static function getBannedScores() {
+			$db = new database;
+			$data = $db->query("SELECT IFNULL(players.nickname, scores.profile_number) AS player_name, scores.profile_number, scores.score, maps.name, maps.steam_id
+								FROM scores 
+								INNER JOIN maps ON scores.map_id = maps.steam_id
+								LEFT JOIN players ON scores.profile_number = players.profile_number
+								WHERE legit = '0'
+								");
+			while($row = $data->fetch_assoc()) {
+				if($row["profile_number"] != "76561198043770492") {
+					$cheatedScores[] = array(self::convert_valve_derp_time($row["score"]), $row["name"], $row["player_name"], $row["steam_id"], $row["profile_number"]);
+				}
+			}
+			return $cheatedScores;
+		}
+		public static function getBannedPlayers() {
+			$db = new database;
+			$data = $db->query("SELECT players.profile_number, scores.score, maps.name, maps.steam_id
+								FROM players 
+								INNER JOIN scores ON scores.profile_number = players.profile_number
+								INNER JOIN maps ON scores.map_id = maps.steam_id
+								WHERE banned = '1'
+								");
+			while($row = $data->fetch_assoc()) {
+				$cheaters[] = array(self::convert_valve_derp_time($row["score"]), $row["name"], $row["steam_id"], $row["profile_number"]);
+			}
+			return $cheaters;
+		}
 	}
 
 	class LeastPortals extends Leaderboard {
@@ -477,7 +508,7 @@
 			//$start = microtime(true);
 			$data = $this->db->query("SELECT lp_id FROM maps ORDER BY id");
 			while($fuckingretardedmysqlifunctionthatdoesntreturnfuckingarrayinstantly = $data->fetch_assoc()) {
-				$steamids[] = $fuckingretardedmysqlifunctionthatdoesntreturnfuckingarrayinstantly["lp_id"];
+				$steamids[$fuckingretardedmysqlifunctionthatdoesntreturnfuckingarrayinstantly["lp_id"]] = 20;
 			}
 			//echo "<b>Get Map IDS: </b>".(microtime(true) - $start)."<br>";
 			return $steamids;
@@ -501,9 +532,6 @@
 		}
 		// remember to change Class permission stuff
 		protected function get_data($ids) {
-			// parent::get_data($ids);
-			// echo "is this the end?";
-			// var_dump($data);
 			$parent = parent::get_data($ids);
 			//var_dump($parent);
 			$cheaters = Leaderboard::get_shitlist();
@@ -541,7 +569,6 @@
 								ORDER BY chapters.is_multiplayer ASC, maps.id ASC
 								");
 			while($row = $data->fetch_assoc()) {
-				//$board[$map_data[$key][0]][$map_data[$key][1]][1][] = array($profileID, self::convert_valve_derp_time($score));
 				$board[$row["chapter_name"]][$row["name"]] = array($row["steam_id"], $row["steam_id_image"], $row["portals"]);
 			}
 			return $board;

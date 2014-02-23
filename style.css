@@ -26,7 +26,7 @@ html, body {
 	float: left;
 	padding: 0px 0px 0px 32px;
 	position: relative;
-	min-width: 600px;
+	min-width: 750px;
 }
 #header_right {
 	float: right;
@@ -74,6 +74,9 @@ html, body {
 }
 #lp_icon {
 	background: url("images/icon4.jpg");
+}
+#wallofshame_icon {
+	background: url("images/icon5.jpg");
 }
 #loginsteam {
 	display: block;
@@ -465,4 +468,40 @@ input[type=submit] {
 }
 .chamber_scores .firstplace .entry.highlight {
 	color: #3484B3;
+}
+.wallofshame .chapterinfo {
+	float:none;
+}
+.wallofshame .banana { 
+	font-family: Arial, sans-serif;
+	font-size: 11px;
+	margin-left:25px;
+}
+.wallofshame .banana p {
+	margin:0;
+	padding:0;
+}
+.wallofshame #content {
+	padding-top:20px;
+}
+.wallofshame .banana a {
+	font-weight:bold;
+	color:#000;
+	text-decoration:none;
+}
+.wallofshame .banana a.playername {
+	color:#3484B3;
+}
+.wallofshame .banana a:hover {
+	text-decoration:underline;
+}
+.wallofshame .banana .chambername {
+	min-width:175px;
+	display:inline-block;
+}
+.wallofshame .banana .playernamewrapper {
+	margin-left:50px;
+}
+.wallofshame .banana.banned-scores {
+	margin-bottom:40px;
 }
