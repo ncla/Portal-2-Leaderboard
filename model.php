@@ -14,8 +14,6 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 
 		public function __construct() {
 			$this->db = new database;
-			self::getSinglesegmentData();
-			die;
 		    $newBoardData = $this->get_data($this->returnCheatedBoardCount());
 
             $this->save_data($newBoardData);
