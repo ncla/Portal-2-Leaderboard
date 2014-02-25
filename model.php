@@ -129,7 +129,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			$this->db->query($actualquery);
 
 			$total_moo_time = microtime(true) - $moo_time;
-			echo "Changelogging function: ".$total_moo_time."s";
+			echo "Changelogging function: ".$total_moo_time."s\n";
 		}
 
         /**
@@ -215,10 +215,10 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			// derp closing.
 			curl_multi_close($curl_master);
 			
-			echo "Leaderboard Fetchnew XML: ".$xml_total;
+			echo "Leaderboard Fetchnew XML: ".$xml_total."\n";
 
 			$total_moo_time = microtime(true) - $moo_time;
-			echo "Leaderboard Fetchnew cURL: ".$total_moo_time;
+			echo "Leaderboard Fetchnew cURL: ".$total_moo_time."\n";
 			//var_dump($data);
 			return $data;		
 		}
@@ -264,7 +264,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			if(count($changelog) > 0) {
 				$this->save_into_changelog($changelog);
 			}
-			echo "Leaderboard Fetchnew DB: ".$total_moo_time."s";
+			echo "Leaderboard Fetchnew DB: ".$total_moo_time."s\n";
 		}
 
 		public function returnCheatedBoardCount() {
