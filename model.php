@@ -1,41 +1,11 @@
 <?php
-
+include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 // Improvements:
 // Try calling less queries as possible. Save into changelog function could be rewritten so it processes data from array, instead of being called multiple times.
 // Storing SQL connect somewhere off from /www directory. Also, establishing connection only once..
 // http://net.tutsplus.com/tutorials/other/top-20-mysql-best-practices/
 // Unbuffered queries?
 // scores table remove last_changed?
-	class database extends mysqli {
-		public function __construct($host = 'localhost', $user = 'root', $pass = 'Tru!Ed2J', $db = 'leaderboard') {
-        	parent::__construct($host, $user, $pass, $db);
-        	if ($this->connect_errno) { // ummm, connect_errno vai mysql_errno?
-				trigger_error($this->connect_error);
-			}
-			$this->set_charset('utf8'); 
-		}
-		public function query($query, $resultmode = MYSQLI_STORE_RESULT) {
-			$bob = parent::query($query, $resultmode);
-			if(!$bob) {
-				trigger_error($this->error);
-			}
-			return $bob;
-		}
-	}
-    class BoardCache {
-        public static function getBoard() {
-            if(apc_exists("board")) {
-                return apc_fetch("board");
-            }
-            else {
-                new Leaderboard;
-                return apc_fetch("board");
-            }
-        }
-        public static function setBoard($board) {
-            apc_store("board", $board);
-        }
-    }
 	class Leaderboard {
 		
 		protected $db, $leaderboard_ids;
@@ -44,7 +14,8 @@
 
 		public function __construct() {
 			$this->db = new database;
-
+			self::getSinglesegmentData();
+			die;
 		    $newBoardData = $this->get_data($this->returnCheatedBoardCount());
 
             $this->save_data($newBoardData);
@@ -496,6 +467,96 @@
 			}
 			return $cheaters;
 		}
+		/* Parsing the HTML/table takes 0.2s, might want to improve */
+		public static function newSingleSegmentData() {
+			ini_set('xdebug.var_display_max_depth', -1);
+			ini_set('xdebug.var_display_max_children', -1);
+			ini_set('xdebug.var_display_max_data', -1);
+
+			$url = "http://cronikeys.com/portal/api.php?format=json&action=parse&page=Leaderboards";
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$leaderboardWikiData = curl_exec($ch);
+			curl_close($ch);
+			$htmlData = json_decode($leaderboardWikiData)->parse->text->{"*"};
+			$html = str_get_html($htmlData);
+			/* Remove paragraphs */
+			foreach($html->find('p') as $node) {
+				$node->outertext = "";
+			}
+			/* Parsing the tables */
+			$tables = array();
+			foreach($html->find('table') as $table) {
+				if($table->id != "toc") {
+
+					$tableHeaders = NULL;
+					foreach($table->find('th') as $th) {
+						$tableHeaders[] = trim(preg_replace("/\r|\n/", "", $th->plaintext));
+					}
+					$entries = NULL;
+					foreach($table->find('tr') as $tr) {
+						if($tr->find('th') == false) {
+							$entry = NULL;
+							foreach($tr->find('td') as $key => $value) {
+								$entry[$tableHeaders[$key]] = trim(preg_replace("/\r|\n/", "", $value->plaintext));
+								//echo $th->plaintext."<br>";
+							}
+							$entries[] = $entry;
+						}	
+					}
+					array_push($tables, $entries);
+				}
+			}
+			/* Remove Course 6 COOP Table */
+			unset($tables[6]);
+			foreach($tables as $table => $tableData) {
+				foreach($tableData as $entry => $entryData) {
+					unset($tables[$table][$entry]["Comment"], $tables[$table][$entry]["Video"]);
+					//unset($tables[$table][$entry]["Comment"]);
+				}
+			}
+			/* Merge Atlas and P-Body as one player, remove team name */
+			foreach($tables[4] as $entry => $entryData) {
+				$tables[4][$entry]["Player"] = $entryData["Atlas"]. " & " . $entryData["P-Body"];
+				unset($tables[4][$entry]["Atlas"], $tables[4][$entry]["P-Body"], $tables[4][$entry]["Team name"]);
+			}
+			/* Remove team name, change Label for Atlas/P-Body to Player */
+			foreach($tables[5] as $entry => $entryData) {
+				$tables[5][$entry]["Player"] = $entryData["Atlas/P-Body"];
+				unset($tables[5][$entry]["Atlas/P-Body"], $tables[5][$entry]["Team name"]);
+			}
+			/* Slice tables to TOP15 */
+			// foreach($tables as $key => $value) {
+			// 	$sliced = array_slice($value, 0, 10);
+			// 	$tables[$key] = $sliced;
+			// }
+			/* Categorize by game */
+			$ladder = array("Portal 1" => array(
+								"Beat the game, No OOB" => $tables[0], 
+								"Beat the game" => $tables[1], 
+								"Beat the game, Glitchless" => $tables[2]),
+							"Portal 2" => array(
+								"Beat the game" => $tables[3], 
+								"Beat COOP" => $tables[4], 
+								"Beat COOP Solo" => $tables[5]));
+
+			$dtz = new DateTimeZone('Europe/London');
+			$time = new DateTime('now', $dtz);
+			$offset = $dtz->getOffset($time) / 3600;
+			$timeUpdated = date('m/d/Y h:i:s a', time()) . " GMT" . ($offset < 0 ? $offset : "+".$offset);
+			$dataTable = serialize($ladder);
+			$db = new Database;
+			$db->query("REPLACE INTO singlesegment (id, updated, datatable) VALUES (1, '$timeUpdated', '$dataTable')");
+		}
+		public static function getSinglesegmentData() {
+			$db = new Database;
+			$data = $db->query("SELECT datatable, updated FROM singlesegment");
+			while($row = $data->fetch_assoc()) {
+				$tables = $row;
+			}
+			return array(unserialize($tables["datatable"]), $tables["updated"]);
+		}
 	}
 
 	class LeastPortals extends Leaderboard {
@@ -531,7 +592,7 @@
 			return $board;
 		}
 		// remember to change Class permission stuff
-		protected function get_data($ids) {
+		protected function get_data($ids = array()) {
 			$parent = parent::get_data($ids);
 			//var_dump($parent);
 			$cheaters = Leaderboard::get_shitlist();

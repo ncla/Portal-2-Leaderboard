@@ -12,6 +12,14 @@ html, body {
 	padding: 0;
 	margin: 0;
 	background: url("images/debut_light.png") repeat;
+	font-family: Tahoma;
+	font-size: 11px;
+}
+a {
+	color: #000;
+}
+a:hover {
+	text-decoration: none;
 }
 #header {
 	background: url("images/header_bg.jpg");
@@ -100,11 +108,11 @@ html, body {
 }
 #edition {
 	float: left;
-	font-family: Arial;
-	font-size: 18px;
-	font-weight: bold;
-	margin: 14px 0px 0px 15px;
-	color: #4f4f4f;
+	margin: 5px 0px 0px 15px;
+	background: url(../images/cakeicon.png) no-repeat;
+	background-size: cover;
+	width: 40px;
+	height: 40px;
 }
 .avatar {
 	float: left;
@@ -259,7 +267,7 @@ html, body {
 	top: 92px;
 	left: -6px;
 }
-.chapternumber, .chaptername {
+.chapternumber, .chaptername, h1, h2 {
 	font-family: "Aperture";
 	font-size: 20px;
 	color: #3e88b3;
@@ -364,31 +372,31 @@ input[type=submit] {
 	font-family: Tahoma, Arial;
 	color: #7b7b7b;
 }
-#changelog {
+#changelog, .datatable {
 	width: 98%;
-	background: green;
 	margin: 30px auto;
 	font-family: Tahoma, Arial;
 	font-size: 11px;
 	min-width: 960px;
 }
-#changelog #firstentry {
+#changelog #firstentry, .datatable #firstentry {
 	background: #dadada;
 	border-top: 2px solid #5597bd;
 	border-bottom: 1px solid #adadad;
 	height: 41px;
 	font-weight: bold;
 }
-#otherentries .entry {
+#otherentries .entry, .datatable #otherentries .entry {
 	width: 100%;
 	background: #ededed;
 	height: 41px;
 	border-bottom: 1px solid #a9a9a9;
 }
+/* What the fuck is this selector, Nuclear? */
 #otherentries:nth-child(2) {
 	background: #e6e6e6;
 }
-.time, .player, .map, .chapter, .newscore, .previousscore, .worldrecord {
+.time, .player, .map, .chapter, .newscore, .previousscore, .worldrecord, .datatable #firstentry div, .datatable .entry div {
 	height: 29px;
 	float: left;
 	padding: 12px 0px 0px 10px;
@@ -504,4 +512,101 @@ input[type=submit] {
 }
 .wallofshame .banana.banned-scores {
 	margin-bottom:40px;
+}
+.col-2set.singlesegment {
+	max-width: 1800px;
+	margin: 30px auto;
+	padding:0 15px;
+}
+.col-2set.singlesegment .datatable {
+	min-width: 100%;
+}
+.col-2set.singlesegment h1 {
+	font-size: 34px;
+}
+.col-2set.singlesegment .col1, .col-2set.singlesegment .col2 {
+	width: 50%;
+}
+.col-2set.singlesegment .col1 {
+	float: left;
+}
+.col-2set.singlesegment .col2 {
+	float: right;
+}
+.col-2set.singlesegment .col1 .ss-wrapper {
+	padding:0 15px 0 0;
+}
+.col-2set.singlesegment .col2 .ss-wrapper {
+	padding:0 0 0 15px;
+}
+.col-2set.singlesegment .player, .col-2set.singlesegment .datatable #firstentry .player {
+	width: 25%;
+	padding-left:30px;
+}
+.col-2set.singlesegment .time-withloads, .col-2set.singlesegment .time-noloads {
+	width: 30%;
+}
+#ss-p2, #ss-p1 {
+	height: 200px;
+	width: 100%;
+	background: url(../images/ss_p2.jpg);
+	background-size: cover;
+	background-position: center center;
+	position: relative;
+}
+#ss-p1 {
+	background: url(../images/ss_p1.jpg);
+}
+#ss-p1 h1, #ss-p2 h1 {
+	color: #f7fcff;
+	opacity: 0.8;
+	text-shadow: 0 0 5px #000000;
+	overflow: hidden;
+}
+.col-2set.singlesegment .ss-info {
+	position: absolute;
+	left:50px;
+	top:50px;
+	width:500px;
+}
+.col-2set.singlesegment .ss-info h2 {
+	position:absolute;
+	top:40px;
+	color: #f7fcff;
+	opacity: 0.8;
+	display: none;
+	text-shadow: 0 0 5px #000000;
+}
+.col-2set.singlesegment .ss-info h2:nth-of-type(1) {
+	display: block;
+}
+.col-2set.singlesegment .ss-tables {
+	position: relative;
+}
+.col-2set.singlesegment .datatable {
+	margin:0;
+	display:none;
+}
+.col-2set.singlesegment .datatable:nth-of-type(1) {
+	display: block;
+}
+.ss-notice { 
+	margin-top: 15px;
+	float: left;
+	width: 100%;
+}
+.ss-controls span {
+	display: inline-block;
+	height:20px;
+	width:20px;
+	background: rgba(255, 255, 255, 0.5);
+	color:#000;
+	margin-right:6px;
+	text-align: center;
+	line-height:20px;
+	font-weight: bold;
+	cursor:pointer;
+}
+.ss-controls span.active {
+	background: rgba(255, 255, 255, 0.8);
 }
