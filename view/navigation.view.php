@@ -2,4 +2,4 @@
 				<a href="/coop"><div id="coop_icon" class="nav_icons"></div>COOPERATIVE</a>
 				<a href="/changelog"><div id="ch_icon" class="nav_icons"></div>SCORE UPDATES</a>
 				<a href="/leastportals"><div id="lp_icon" class="nav_icons"></div>LEAST PORTALS</a>
-				<a href="/wallofshame"><div id="wallofshame_icon" class="nav_icons"></div>WALL OF SHAME</a>
+				<a href="/singlesegment"><div id="ss_icon" class="nav_icons"></div>SINGLE SEGMENT</a>
