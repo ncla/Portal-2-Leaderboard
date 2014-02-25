@@ -134,8 +134,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			$this->db->query($actualquery);
 
 			$total_moo_time = microtime(true) - $moo_time;
-			echo "<b>Changelogging function:</b> ".$total_moo_time."s</br>";
-
+			error_log("<b>Changelogging function:</b> ".$total_moo_time."s");
 		}
 
         /**
@@ -224,7 +223,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			echo "<b>XML: </b>".$xml_total."<br>";
 
 			$total_moo_time = microtime(true) - $moo_time;
-			echo "<b>cURL requests:</b> ".$total_moo_time."s</br>";
+			error_log("<b>cURL requests:</b> ".$total_moo_time);
 			//var_dump($data);
 			return $data;		
 		}
@@ -268,9 +267,9 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			}
 			$total_moo_time = microtime(true) - $moo_time;
 			if(count($changelog) > 0) {
-				//$this->save_into_changelog($changelog);
+				$this->save_into_changelog($changelog);
 			}
-			echo "<b>DB queries:</b> ".$total_moo_time."s</br>";
+			error_log("<b>DB queries:</b> ".$total_moo_time."s");
 		}
 
 		public function returnCheatedBoardCount() {
