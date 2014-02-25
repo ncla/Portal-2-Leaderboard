@@ -20,16 +20,13 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		}
 
 		protected function get_map_ids() {
-			//$start = microtime(true);
 			$data = $this->db->query("SELECT steam_id FROM maps ORDER BY id");
 			while($fuckingretardedmysqlifunctionthatdoesntreturnfuckingarrayinstantly = $data->fetch_assoc()) {
 				$steamids[] = $fuckingretardedmysqlifunctionthatdoesntreturnfuckingarrayinstantly["steam_id"];
 			}
-			//echo "<b>Get Map IDS: </b>".(microtime(true) - $start)."<br>";
 			return $steamids;
 		}
 		public static function get_map_names($mode = 0) {
-			$tt = microtime(true);
 			$db = new database;
 			$data = $db->query("SELECT steam_id, name, chapter_id FROM maps ORDER BY maps.id");
 			$maps = array();
@@ -37,7 +34,6 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 				$maps[$haha["steam_id"]] = $haha["name"];
 			}
 			$hoh = microtime(true) - $tt;
-			//echo "<b>Get map names query: </b>".$hoh;
 			return $maps;
 		}
 		public static function get_chapter_names($mode = 0) {
@@ -54,7 +50,6 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			$data = $this->db->query("SELECT profile_number FROM players WHERE banned = 1");
 			$shitlist = array();
 			while($obj = $data->fetch_row()) {
-				//array_push($shitlist, $obj[0]);
 				$shitlist[] = $obj[0];
 			}
 			return $shitlist;
@@ -134,7 +129,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			$this->db->query($actualquery);
 
 			$total_moo_time = microtime(true) - $moo_time;
-			error_log("<b>Changelogging function:</b> ".$total_moo_time."s");
+			error_log("Changelogging function: ".$total_moo_time."s");
 		}
 
         /**
@@ -220,10 +215,10 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			// derp closing.
 			curl_multi_close($curl_master);
 			
-			echo "<b>XML: </b>".$xml_total."<br>";
+			error_log("Leaderboard Fetchnew XML: ".$xml_total);
 
 			$total_moo_time = microtime(true) - $moo_time;
-			error_log("<b>cURL requests:</b> ".$total_moo_time);
+			error_log("Leaderboard Fetchnew cURL: ".$total_moo_time);
 			//var_dump($data);
 			return $data;		
 		}
@@ -269,7 +264,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			if(count($changelog) > 0) {
 				$this->save_into_changelog($changelog);
 			}
-			error_log("<b>DB queries:</b> ".$total_moo_time."s");
+			error_log("Leaderboard Fetchnew DB: ".$total_moo_time."s");
 		}
 
 		public function returnCheatedBoardCount() {
