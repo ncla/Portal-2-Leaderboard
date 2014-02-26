@@ -42,7 +42,7 @@
 	<div id="content">
 
 		<div id="filters">
-			<div id="filter_instructions_lol">Use these filters to display the changelog you want <a href="/download" id="changelog_download">Download whole changelog data</a></div>
+			<div id="filter_instructions_lol">Use these filters to display the changelog you want</div>
 			<div id="filter_options">
 				<form name="filters" action="/changelog" method="post">
 					<div style="float: left;" class="input">
