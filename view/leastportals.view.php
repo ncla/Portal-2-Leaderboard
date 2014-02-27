@@ -81,7 +81,8 @@ $(document).ready(function() {
 						</div>
 					</div>
 					<div class="portalsused">
-						<div class="portalamount"><?=$chamb_val[2];?></div> PORTALS
+                        <?php $grammar = ($chamb_val[2] != 1) ? "PORTALS" : "PORTAL"; ?>
+						<div class="portalamount"><?=$chamb_val[2];?></div> <?=$grammar;?>
 					</div>
 				</div>
 
