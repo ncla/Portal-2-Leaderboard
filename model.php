@@ -17,6 +17,26 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		    $newBoardData = $this->get_data($this->returnCheatedBoardCount());
 
             $this->save_data($newBoardData);
+
+            $SPBoard = self::return_leaderboards_new($mode = "0", $amount = "20");
+            $COOPBoard = self::return_leaderboards_new($mode = "1", $amount = "20");
+            BoardCache::setBoard("SPBoard", $SPBoard);
+            BoardCache::setBoard("COOPBoard", $COOPBoard);
+
+            $SPPointBoard = $this->makeScoreBoard($SPBoard);
+            $COOPPointBoard = $this->makeScoreBoard($COOPBoard);
+
+            BoardCache::setBoard("SPBoardPoints", $SPPointBoard);
+            BoardCache::setBoard("COOPBoardPoints", $COOPPointBoard);
+
+            $SPPointTopBoard = $this->makeTopPointBoard($SPPointBoard);
+            $COOPPointTopBoard = $this->makeTopPointBoard($COOPPointBoard);
+
+            BoardCache::setBoard("SPPointTopBoard", $SPPointTopBoard);
+            BoardCache::setBoard("COOPPointTopBoard", $COOPPointTopBoard);
+            BoardCache::setBoard("GlobalPointTopBoard", $this->makeGlobalPointBoard($SPPointTopBoard, $COOPPointTopBoard));
+
+            BoardCache::setBoard("Nicknames", $this->getAllNicknames());
 		}
 
 		protected function get_map_ids() {
@@ -47,20 +67,13 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		}
 		public function get_shitlist() {
 
-			$data = $this->db->query("SELECT profile_number FROM players WHERE banned = 1");
+			$data = $this->db->query("SELECT profile_number FROM usersnew WHERE banned = 1");
 			$shitlist = array();
 			while($obj = $data->fetch_row()) {
 				$shitlist[] = $obj[0];
 			}
 			return $shitlist;
 		}
-        public function getPlayerNicknames() {
-            $data = $this->db->query("SELECT profile_number, nickname FROM players WHERE nickname IS NOT NULL");
-            while($row = $data->fetch_assoc()) {
-                $nicknames[$row["profile_number"]] = $row["nickname"];
-            }
-            return $nicknames;
-        }
 		public static function convert_valve_derp_time($time) {
 			if(strlen($time) > 2) {
 				$reversed = strrev($time);
@@ -106,7 +119,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 							          @prev := map_id
 							        FROM scores 
 							        JOIN (SELECT @rownum := NULL, @prev := 0) AS r 
-							        WHERE profile_number IN (SELECT profile_number FROM players WHERE banned = 0)
+							        WHERE profile_number IN (SELECT profile_number FROM usersnew WHERE banned = 0)
 							        AND legit = '1'
 							        ORDER BY map_id, score ASC
 							      ) AS tmp 
@@ -240,7 +253,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			foreach($data_to_load as $chamber => $chamber_val) {
 				foreach($chamber_val as $player => $score) {
 					if(!isset($db_data_arr[$chamber][$player])) {
-						$this->db->query("INSERT IGNORE INTO players SET profile_number = '{$player}'");
+						$this->db->query("INSERT IGNORE INTO usersnew SET profile_number = '{$player}'");
 						$this->db->query("INSERT INTO scores (profile_number, score, map_id) 
 									VALUES (
 										'{$player}',
@@ -272,8 +285,8 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			$data = $db->query("SELECT score, scores.profile_number, map_id
                                 FROM scores
                                 INNER JOIN maps ON scores.map_id = maps.steam_id
-                                LEFT JOIN players ON scores.profile_number = players.profile_number
-                                WHERE legit = '0' OR players.banned = '1'
+                                LEFT JOIN usersnew ON scores.profile_number = usersnew.profile_number
+                                WHERE legit = '0' OR usersnew.banned = '1'
                                 ORDER BY maps.id
 						        ");
 
@@ -309,13 +322,14 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		        $map_data[$mapID] = array($chaptername, $mapname);
 		    }
 
-		    if (!($stmt_scores = $db->prepare("SELECT IFNULL(p.nickname, s.profile_number), s.score 
+		    if (!($stmt_scores = $db->prepare("SELECT IFNULL(p.boardname, s.profile_number), s.score, p.profile_number
 		    								   FROM scores AS s
-		    								   INNER JOIN players AS p on p.profile_number = s.profile_number
-		    								   WHERE s.map_id = ? 
+		    								   INNER JOIN usersnew AS p on p.profile_number = s.profile_number
+		    								   LEFT JOIN changelog ON s.map_id = changelog.map_id AND s.score = changelog.score AND s.profile_number = changelog.profile_number
+		    								   WHERE s.map_id = ?
 		    								   AND s.legit = '1'
 		    								   AND p.banned = '0'
-		    								   ORDER BY s.score ASC
+		    								   ORDER BY s.score ASC, changelog.time_gained ASC
 		    								   LIMIT ".$amount))) {
 			     echo "Prepare failed: (" . $db->errno . ") " . $db->error;
 			}
@@ -326,35 +340,21 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 				if (!$stmt_scores->execute()) {
 			        echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 			    }
-			    $stmt_scores->bind_result($profileID, $score);
+			    $stmt_scores->bind_result($profileID, $score, $profileNumber);
 
 			    $board[$map_data[$key][0]][$map_data[$key][1]][0] = $key;
 
 			    while ($stmt_scores->fetch()) {
 		        	//printf ("%s - %s\n<br>", $profileID, self::convert_valve_derp_time($score));
-		        	$board[$map_data[$key][0]][$map_data[$key][1]][1][] = array($profileID, self::convert_valve_derp_time($score));
+		        	$board[$map_data[$key][0]][$map_data[$key][1]][1][] = array($profileID, self::convert_valve_derp_time($score), $profileNumber);
 		    	}
 			}
-			//var_dump($board);
-			
-
-		    /* fetch values */
-		    while ($stmt_scores->fetch()) {
-		        printf ("%s - %s\n<br>", $profileID, $score);
-		    }
-
-			/* Prepared statement: repeated execution, only data transferred from client to server */
-			// for ($id = 2; $id < 5; $id++) {
-			//     if (!$stmt->execute()) {
-			//         echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-			//     }
-			// }
 			return $board;
 		}
 		public static function return_chamber($id = 45467) {
 			$db = new database;
 			$id = $db->real_escape_string($id);
-			$data = $db->query("SELECT IFNULL(p.nickname, s.profile_number) AS player_name, s.score, maps.name, chapters.chapter_name, s.profile_number AS userid,
+			$data = $db->query("SELECT IFNULL(p.boardname, s.profile_number) AS player_name, s.score, maps.name, chapters.chapter_name, s.profile_number AS userid,
 								IFNULL(
 									(SELECT mapz.steam_id FROM (SELECT steam_id, name, id FROM maps) AS mapz WHERE mapz.id < maps.id ORDER BY id DESC LIMIT 1),
 									(SELECT steam_id FROM maps ORDER BY id DESC LIMIT 1)
@@ -364,13 +364,14 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 									(SELECT steam_id FROM maps ORDER BY id ASC LIMIT 1)
 									) AS next_map
 								FROM scores AS s
-								LEFT JOIN players AS p ON s.profile_number = p.profile_number
+								LEFT JOIN usersnew AS p ON s.profile_number = p.profile_number
 								LEFT JOIN maps ON maps.steam_id = s.map_id 
 								LEFT JOIN chapters ON maps.chapter_id = chapters.id
+								LEFT JOIN changelog ON s.map_id = changelog.map_id AND s.score = changelog.score AND s.profile_number = changelog.profile_number
 								WHERE s.map_id = '{$id}'
 								AND legit = '1'
 								AND p.banned = '0'
-								ORDER BY s.score ASC, s.profile_number ASC
+								ORDER BY s.score ASC, changelog.time_gained ASC
 								LIMIT 20
 						        ");
 
@@ -394,14 +395,14 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 					$param[$key] = $db->real_escape_string($result);
 				}
 			}
-			$changelog_data = $db->query("SELECT IFNULL(players.nickname, changelog.profile_number) AS player_name, changelog.score, changelog.map_id, changelog.wr_gain, maps.name, chapters.chapter_name, changelog.time_gained, changelog.previous_score 
+			$changelog_data = $db->query("SELECT IFNULL(usersnew.boardname, changelog.profile_number) AS player_name, changelog.score, changelog.map_id, changelog.wr_gain, maps.name, chapters.chapter_name, changelog.time_gained, changelog.previous_score
 												FROM changelog 
-												INNER JOIN players ON changelog.profile_number = players.profile_number 
+												INNER JOIN usersnew ON changelog.profile_number = usersnew.profile_number
 												INNER JOIN maps ON changelog.map_id = maps.steam_id
 												INNER JOIN chapters ON maps.chapter_id = chapters.id 
 												WHERE maps.name LIKE '%{$param['bychamber_name']}%'
 												AND chapters.chapter_name LIKE '%{$param['bychapter_name']}%'
-												AND IFNULL(players.nickname, '') LIKE '%{$param['byplayernickname']}%'
+												AND IFNULL(usersnew.boardname, '') LIKE '%{$param['byplayernickname']}%'
 												AND changelog.profile_number LIKE '%{$param['byplayer_steamid']}%'
 												AND maps.is_coop LIKE '%{$param['bytype']}%'
 												AND changelog.wr_gain LIKE '%{$param['wr']}%'
@@ -433,10 +434,10 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		}
 		public static function getBannedScores() {
 			$db = new database;
-			$data = $db->query("SELECT IFNULL(players.nickname, scores.profile_number) AS player_name, scores.profile_number, scores.score, maps.name, maps.steam_id
+			$data = $db->query("SELECT IFNULL(usersnew.boardname, scores.profile_number) AS player_name, scores.profile_number, scores.score, maps.name, maps.steam_id
 								FROM scores 
 								INNER JOIN maps ON scores.map_id = maps.steam_id
-								LEFT JOIN players ON scores.profile_number = players.profile_number
+								LEFT JOIN usersnew ON scores.profile_number = usersnew.profile_number
 								WHERE legit = '0'
 								");
 			while($row = $data->fetch_assoc()) {
@@ -448,9 +449,9 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		}
 		public static function getBannedPlayers() {
 			$db = new database;
-			$data = $db->query("SELECT players.profile_number, scores.score, maps.name, maps.steam_id
-								FROM players 
-								INNER JOIN scores ON scores.profile_number = players.profile_number
+			$data = $db->query("SELECT usersnew.profile_number, scores.score, maps.name, maps.steam_id
+								FROM usersnew
+								INNER JOIN scores ON scores.profile_number = usersnew.profile_number
 								INNER JOIN maps ON scores.map_id = maps.steam_id
 								WHERE banned = '1'
 								");
@@ -461,10 +462,6 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		}
 		/* Parsing the HTML/table takes 0.2s, might want to improve */
 		public static function newSingleSegmentData() {
-			ini_set('xdebug.var_display_max_depth', -1);
-			ini_set('xdebug.var_display_max_children', -1);
-			ini_set('xdebug.var_display_max_data', -1);
-
 			$url = "http://cronikeys.com/portal/api.php?format=json&action=parse&page=Leaderboards";
 			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -549,6 +546,64 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			}
 			return array(unserialize($tables["datatable"]), $tables["updated"]);
 		}
+        public static function makeScoreBoard($board) {
+            foreach($board as $chapter => $chapterData) {
+                foreach($chapterData as $map => $mapData) {
+                    $entriesByPoints = $scoresAsArrayKey = $entriesByScore = NULL;
+                    foreach($mapData[1] as $entry => $entryData) {
+                        $scoresAsArrayKey[$entryData[1]][] = array($entryData[2], $entryData[0]);
+                    }
+                    $points = 20;
+                    while($points >= 1) {
+                        $pointArray[] = $points;
+                        $points--;
+                    }
+                    foreach($scoresAsArrayKey as $scoresPlayerTime => $scoresPlayerData) {
+                        $entriesByScore[$scoresPlayerTime] = $scoresPlayerData;
+                    }
+                    $place = 0;
+
+                    foreach($entriesByScore as $scoreTime => $scoreTimePlayers) {
+                        foreach($scoreTimePlayers as $scoreTimePlayerProfileNumber) {
+                            $entriesByPoints[$scoreTimePlayerProfileNumber[0]] = array($pointArray[$place], $scoreTimePlayerProfileNumber[1]);
+                        }
+                        $place = $place + count($scoreTimePlayers);
+                    }
+                    $board[$chapter][$map][1] = $entriesByPoints;
+                }
+            }
+            return $board;
+        }
+        public static function makeTopPointBoard($swagBoard) {
+            foreach($swagBoard as $chapter => $chapterData) {
+                foreach($chapterData as $map => $mapData) {
+                    foreach($mapData[1] as $player => $playerData) {
+                        $fuckingpoints[$player] = (isset($fuckingpoints[$player])) ? ($fuckingpoints[$player] + $playerData[0]) : $playerData[0];
+                    }
+                }
+            }
+            arsort($fuckingpoints, SORT_NUMERIC);
+            return $fuckingpoints;
+        }
+        public static function makeGlobalPointBoard($SPTopPointBoard, $COOPTopPointBoard) {
+            foreach($COOPTopPointBoard as $player => $points) {
+                if(isset($SPTopPointBoard[$player])) {
+                    $SPTopPointBoard[$player] = $SPTopPointBoard[$player] + $points;
+                }
+                else {
+                    $SPTopPointBoard[$player] = $points;
+                }
+            }
+            arsort($SPTopPointBoard, SORT_NUMERIC);
+            return $SPTopPointBoard;
+        }
+        public function getAllNicknames() {
+            $data = $this->db->query("SELECT IFNULL(boardname, profile_number) AS nickname, profile_number FROM usersnew");
+            while($row = $data->fetch_assoc()) {
+                $nicknames[$row["profile_number"]] = $row["nickname"];
+            }
+            return $nicknames;
+        }
 	}
 
 	class LeastPortals extends Leaderboard {

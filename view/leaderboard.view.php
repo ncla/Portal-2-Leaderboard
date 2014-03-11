@@ -82,6 +82,7 @@ $(document).ready(function() {
 
 
 												<?php foreach($chamb_val[1] as $pl_key => $pl_val): ?>
+
 													<?php if($pl_key == 0) { ?>
 													<div class="firstplace">
 														<div class="entry <?php if($highlight == $pl_val[0]) { echo "highlight"; } ?>">
@@ -92,12 +93,13 @@ $(document).ready(function() {
 													<div class="othernoobscores">
 													<?php } 
 													else {
+                                                        if($pl_key < 8) {
 													?>
 													<div class="entry <?php if($highlight == $pl_val[0]) { echo "highlight"; } ?>">
 														<div class="name"><?=$pl_val[0]?></div>
 														<div class="score"><?=$pl_val[1]?></div>
 													</div>
-													<?php } ?>
+													<?php } } ?>
 
 												<?php endforeach; ?>
 													</div>

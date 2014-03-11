@@ -613,3 +613,211 @@ input[type=submit] {
 .ss-controls span.active {
 	background: rgba(255, 255, 255, 0.8);
 }
+#profile {
+    width: 980px;
+    background: #FFF;
+    min-height: 300px;
+    margin: 30px auto;
+    padding: 10px;
+    overflow: auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#profile .userinformation {
+    width: 100%;
+    height: 270px;
+    position: relative;
+    font-weight: bold;
+    color: #FFF;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+#profile .userinformation .profilebg {
+    background: #c6d7e1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+#profile .userinformation .profilebg.hasavatar img {
+    width: 100%;
+    position: relative;
+    top: -500px;
+}
+#profile .userinformation .general {
+    height: 270px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    margin: 0 auto;
+}
+#profile .userinformation .general .general-wrapper img {
+    width: 150px;
+    height: 150px;
+    -webkit-box-shadow: 0px 0px 18px 0px rgba(50, 50, 50, 0.6);
+    -moz-box-shadow: 0px 0px 18px 0px rgba(50, 50, 50, 0.6);
+    box-shadow: 0px 0px 18px 0px rgba(50, 50, 50, 0.6);
+    margin-top: 15px;
+}
+#profile .userinformation .general .general-wrapper .nickname {
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+#profile .userinformation .general .general-wrapper .profile-desc {
+    font-size: 12px;
+}
+#profile .global-stats {
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+    color: #888888;
+}
+#profile .global-stats .block {
+    float: left;
+}
+#profile .global-stats .block-container {
+    width: 240px;
+    float: left;
+}
+#profile .global-stats .block-container.mid {
+    margin: 0 15px;
+}
+#profile .global-stats .block .block-inner {
+    text-align: left;
+    margin-top: 7px;
+    margin-left: 15px;
+}
+#profile .global-stats .block .number {
+    font-size: 40px;
+    text-align: right;
+    display: inline-block;
+}
+#profile .global-stats .block .number span {
+    margin-right: 5px;
+}
+#profile .global-stats .block .number .no {
+    margin-right: 8px;
+}
+#profile .global-stats .block .title {
+    font-size: 13px;
+    display: inline-block;
+    text-align: left;
+    position: relative;
+    top: -2px;
+    margin-left: 5px;
+}
+
+#profile .chapterwrs-wrapper, #changelogactivity {
+    background: #f9f9f9;
+}
+#profile .chapterwrs-wrapper {
+    height: 250px;
+}
+#profile .activity, #profile .chapter-wrs {
+    float: left;
+    width: 100%;
+}
+#profile .chapter-wrs {
+    margin-left: 15px;
+    width: 473px;
+}
+#profile .noactivity {
+    float: left;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    font-size: 17px;
+    color: #888888;
+    background: #f9f9f9;
+}
+#profile .noactivity span {
+    display: block;
+}
+#profile .noactivity span.manualsearch, #profile .noactivity span.manualsearch a {
+    font-size: 12px;
+    color: #888888;
+}
+#profile .noactivity .noact-wrap {
+    margin-top: 30px;
+}
+#profile .global-stats .upperth {
+    position: relative;
+    top: -0.7em;
+    font-size: 50%;
+}
+#profile .profile-title span {
+    padding-left: 20px;
+}
+#profile .profile-title {
+    height: 35px;
+    line-height: 35px;
+    font-size: 11px;
+    border-bottom: 2px solid #2f96d1;
+    margin-top: 10px;
+    background: #f9f9f9;
+    color: #888888;
+    float: left;
+    width: 960px;
+}
+#profile .column-3 .column .profile-title {
+    width: 100%;
+}
+#profile .column-3 .column {
+    float: left;
+    width: 320px;
+    color: #888888;
+}
+#profile .column-3 .column.mid {
+    margin: 0 10px;
+}
+#profile .column-3 .block-content {
+    padding: 20px;
+    float: left;
+    background: #f9f9f9;
+    width: 280px;
+}
+#profile .column-3 .chapter-name {
+    width: 100%;
+    border-bottom: 1px solid #b2b2b2;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+#profile .column-3 .chapter-content {
+    padding: 10px 0 15px 0;
+}
+#profile .column-3 .point-chapter, #profile .column-3 .friendtobeat-entry {
+    width: 100%;
+    padding: 4px 0;
+}
+#profile .friendtobeat-entry .ftb-nickname {
+    text-transform: uppercase;
+}
+#profile .user-noexist {
+    text-align: center;
+    margin-top: 130px;
+}
+#profile .user-noexist .stmt {
+    font-size: 13px;
+}
+.normalcontent.editprofile input {
+    width: 300px;
+}
+#profile .usericons {
+    margin-top: 10px;
+}
+#profile .usericons span {
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    background-size: contain;
+    margin: 0 3px;
+}
+#profile .usericons .twitch {
+    background-image: url(images/twitchicon.png);
+}
+#profile .usericons .youtube {
+    background-image: url(images/youtubeicon.png);
+}
+#profile .usericons .steam {
+    background-image: url(images/steamicon.png);
+}

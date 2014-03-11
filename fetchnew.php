@@ -1,6 +1,7 @@
 <?php
 include('model.php');
 include('db_conf.php');
+include('boardcache.php');
 new Leaderboard();
 
 //$contents = file_get_contents("lp.txt");
