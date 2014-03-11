@@ -270,7 +270,7 @@ class Users {
                     $COOPPlaces = $COOPPlaces + (array_search($this->profileNumber, array_keys($mapData[1])) + 1);
                 }
                 else {
-                    $SPPlaces = $SPPlaces + 21;
+                    $COOPPlaces = $COOPPlaces + 21;
                 }
                 $COOPMaps++;
             }
