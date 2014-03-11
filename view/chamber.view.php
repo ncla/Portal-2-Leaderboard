@@ -99,9 +99,9 @@ $(document).ready(function() {
 			</div>
 			<div class="entries">
 			<?php $i=1; foreach($content[0] as $key => $val): ?>
-				<div class="entry <? if($val[2] == $this->user_id){echo "you";}?>">
+				<div class="entry <?php if($val[2] == $this->user_id){echo "you";}?> ">
 					<div class="place">#<?=$i;?></div>
-					<div class="name"><a href="http://steamcommunity.com/profiles/<?=$val[2];?>"><?=$val[0];?></a></div>
+					<div class="name"><a href="/profile/<?=$val[2];?>"><?=$val[0];?></a></div>
 					<div class="score"><?=$val[1];?></div>
 				</div>
 			<?php $i++; endforeach; ?>

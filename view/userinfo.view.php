@@ -4,10 +4,11 @@
 	<div id="seper"></div>
 	<div id="edition"></div>
 <?php } else { ?>
-	<div id="welcome" <?php if(!$this->pro) { ?> class="threelines"<?php } ?>>
+	<div id="welcome" class="threelines">
 		
 		<div class="firstline">Welcome back, <?=$this->nickname;?></div>
 		<div>Profile ID - <?=$this->profile_number;?></div>
+        <div><a href="/editprofile">Edit profile</a> | <a href="/profile/<?=$this->profile_number;?>">View profile</a></div>
 	</div><img class="avatar" src="<?=$this->avatar;?>" alt="" />
 	<div id="seper"></div>
 	<div id="edition"></div>
