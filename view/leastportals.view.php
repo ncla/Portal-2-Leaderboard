@@ -76,7 +76,7 @@ $(document).ready(function() {
 						<div class="titlebghelper"></div>
 						<div class="titlebg"><a href="http://steamcommunity.com/stats/Portal2/leaderboards/<?=$chamb_val[0];?>"><?=$chamb_key; ?></a></div>
 						<div class="chamber_icons">
-							<a href="#" class="icons youtube_icon"></a>
+							<span class="icons youtube_icon"></span>
 							<a href="<?php echo "http://steamcommunity.com/stats/Portal2/leaderboards/".$chamb_val[0]; ?>" class="icons steam_icon" target="_blank"></a>
 						</div>
 					</div>

@@ -261,6 +261,7 @@ a:hover {
 }
 .youtube_icon {
 	background: url("images/youtube_icon.png");
+    cursor: pointer;
 }
 .steam_icon {
 	background: url("images/steam_icon.png");
