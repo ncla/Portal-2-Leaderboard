@@ -788,6 +788,13 @@ input[type=submit] {
 #profile .column-3 .chapter-content {
     padding: 10px 0 15px 0;
 }
+#profile .column-3 .chapter-content a {
+    color: #888888;
+    text-decoration: none;
+}
+#profile .column-3 .chapter-content a:hover {
+    text-decoration: underline;
+}
 #profile .column-3 .point-chapter, #profile .column-3 .friendtobeat-entry {
     width: 100%;
     padding: 4px 0;

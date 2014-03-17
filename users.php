@@ -292,7 +292,7 @@ class Users {
             foreach($chapterData as $map => $mapData) {
                 foreach($mapData[1] as $entry => $entryData) {
                     if($entryData[2] == $this->profileNumber) {
-                        $records[$chapter][$map] = $entryData[1];
+                        $records[$chapter][$map] = array($entryData[1], $mapData[0]);
                     }
                 }
             }

@@ -221,7 +221,7 @@
                                     <div class="chapter-name"><?=$chapter;?></div>
                                     <div class="chapter-content">
                                         <?php foreach($chapterData as $map => $time): ?>
-                                            <div><?=$map;?> - <?=$time;?></div>
+                                            <div><a href="/chamber/<?=$time[1];?>"><?=$map;?> - <?=$time[0];?></a></div>
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endforeach; ?>
@@ -238,7 +238,7 @@
                                     <div class="chapter-name"><?=$chapter;?></div>
                                     <div class="chapter-content">
                                         <?php foreach($chapterData as $map => $time): ?>
-                                            <div><?=$map;?> - <?=$time;?></div>
+                                            <div><a href="/chamber/<?=$time[1];?>"><?=$map;?> - <?=$time[0];?></a></div>
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endforeach; ?>
