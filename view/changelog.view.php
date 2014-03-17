@@ -123,7 +123,7 @@
 			</div>
 			<div id="otherentries">
 				<?php foreach ($content as $key => $val): ?>
-				<div class="entry">
+				<div class="entry <?php if($val[9] == "1") { ?>hidden<?php } ?>">
 					<div class="time"><?=$val[6]?></div>
 					<div class="player"><?=$val[0]?></div>
 					<div class="map"><?=$val[4]?></div>

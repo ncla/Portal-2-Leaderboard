@@ -395,6 +395,9 @@ input[type=submit] {
 	height: 41px;
 	border-bottom: 1px solid #a9a9a9;
 }
+#otherentries .entry.hidden, .datatable #otherentries .entry.hidden {
+    color: #a5a5a5;
+}
 /* What the fuck is this selector, Nuclear? */
 #otherentries:nth-child(2) {
 	background: #e6e6e6;

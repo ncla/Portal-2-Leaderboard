@@ -395,7 +395,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 					$param[$key] = $db->real_escape_string($result);
 				}
 			}
-			$changelog_data = $db->query("SELECT IFNULL(usersnew.boardname, changelog.profile_number) AS player_name, changelog.score, changelog.map_id, changelog.wr_gain, maps.name, chapters.chapter_name, changelog.time_gained, changelog.previous_score
+			$changelog_data = $db->query("SELECT IFNULL(usersnew.boardname, changelog.profile_number) AS player_name, changelog.score, changelog.map_id, changelog.wr_gain, maps.name, chapters.chapter_name, changelog.time_gained, changelog.previous_score, usersnew.banned AS banned
 												FROM changelog 
 												INNER JOIN usersnew ON changelog.profile_number = usersnew.profile_number
 												INNER JOIN maps ON changelog.map_id = maps.steam_id
@@ -425,7 +425,8 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 									$row["chapter_name"],
 									$row["time_gained"],
 									$previous_score,
-									$improvement
+									$improvement,
+                                    $row["banned"]
 									);
 			}
 			//$total_moo_time = microtime(true) - $moo_time;
