@@ -301,12 +301,12 @@ a:hover {
 #footer {
 	background: url("images/footerbg.jpg") repeat;
 	margin-top: -56px;
-	height: 35px;
+	height: 56px;
 	clear: both;
 	font-family: Tahoma, Arial;
 	font-size: 11px;
 	color: #4c4c4c;
-	padding: 21px 20px 0px 20px;
+    padding: 0 20px;
 }
 #footer a {
     text-decoration: none;
@@ -316,9 +316,11 @@ a:hover {
 }
 .footerleft {
 	float:left;
+    margin-top: 18px;
 }
 .footeright {
 	float: right;
+    line-height: 56px;
 }
 #filters {
 	width: 98%;
