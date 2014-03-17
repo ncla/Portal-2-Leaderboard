@@ -840,3 +840,17 @@ input[type=submit] {
 #profile .usericons .steam {
     background-image: url(images/steamicon.png);
 }
+#profile .twitch-linked {
+    width: 960px;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 20px;
+    background: #8a49ed;
+    color: #FFF;
+    margin-top: 10px;
+    display: none;
+}
+#profile .twitch-linked a {
+    font-weight: bold;
+    color: #FFF;
+}
