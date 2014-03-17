@@ -127,10 +127,7 @@ $(document).ready(function() {
 
 </div>
 
-<div id="footer">
-	<div class="footerleft">Developed and designed by Nuclear, with minor help from @sNuuFix</div>
-	<div class="footeright">This page was generated in <?php echo microtime(true) - $this->exec_time; ?> seconds</div>
-</div>
+<?php include("footer.view.php"); ?>
 
 </body>
 

@@ -308,6 +308,12 @@ a:hover {
 	color: #4c4c4c;
 	padding: 21px 20px 0px 20px;
 }
+#footer a {
+    text-decoration: none;
+}
+#footer a:hover {
+    text-decoration: underline;
+}
 .footerleft {
 	float:left;
 }
