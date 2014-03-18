@@ -212,7 +212,7 @@ class Users {
                 if(isset($boardIndexes[($playerIndex - $i)])) {
                     $place = ($playerIndex - $i);
                     $ftbProfileNumber = $boardIndexes[$place];
-                    $friendstobeat[$ftbProfileNumber] = array($board[$ftbProfileNumber], $nicknames[$ftbProfileNumber], ($place + 1));
+                    $friendstobeat[$ftbProfileNumber] = array($board[$ftbProfileNumber], $nicknames[$ftbProfileNumber], ($place + 1), $ftbProfileNumber);
                 }
                 else {
                     $nextCountFails++;
@@ -225,7 +225,7 @@ class Users {
         }
 
         /* The current player itself */
-        $friendstobeat[$this->profileNumber] = array($board[$this->profileNumber], $nicknames[$this->profileNumber], ($playerIndex + 1));
+        $friendstobeat[$this->profileNumber] = array($board[$this->profileNumber], $nicknames[$this->profileNumber], ($playerIndex + 1), $this->profileNumber);
 
         /* Previous ones (compensating failed next ones) */
         $i = 1;
@@ -234,7 +234,7 @@ class Users {
             if(isset($boardIndexes[($playerIndex + $i)])) {
                 $place = ($playerIndex + $i);
                 $ftbProfileNumber = $boardIndexes[$place];
-                $friendstobeat[$ftbProfileNumber] = array($board[$ftbProfileNumber], $nicknames[$ftbProfileNumber], ($place + 1));
+                $friendstobeat[$ftbProfileNumber] = array($board[$ftbProfileNumber], $nicknames[$ftbProfileNumber], ($place + 1), $ftbProfileNumber);
             }
             $i++;
         }

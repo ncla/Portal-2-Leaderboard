@@ -268,7 +268,9 @@
                             <div class="profile-title"><span>FRIENDS TO BEAT ON SINGLEPLAYER</span></div>
                             <div class="block-content">
                                 <?php foreach($user->friendstobeat->SP as $entry => $entryData): ?>
-                                    <div class="friendtobeat-entry"><?=$entryData[2];?>. <span class="ftb-nickname"><?=$entryData[1];?></span> - <?=$entryData[0];?> point<?php if($entryData[0] != 1) { ?>s<?php } ?></div>
+                                    <div class="friendtobeat-entry <?php if($entryData[3] == $user->profileNumber) {?> you<?php } ?>">
+                                        <?=$entryData[2];?>. <a class="ftb-nickname" href="/profile/<?=$entryData[3];?>"><?=$entryData[1];?></a> - <?=$entryData[0];?> point<?php if($entryData[0] != 1) { ?>s<?php } ?>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif ;?>
@@ -277,7 +279,9 @@
                             <div class="profile-title"><span>FRIENDS TO BEAT ON COOPERATIVE</span></div>
                             <div class="block-content">
                                 <?php foreach($user->friendstobeat->COOP as $entry => $entryData): ?>
-                                    <div class="friendtobeat-entry"><?=$entryData[2];?>. <span class="ftb-nickname"><?=$entryData[1];?></span> - <?=$entryData[0];?> point<?php if($entryData[0] != 1) { ?>s<?php } ?></div>
+                                    <div class="friendtobeat-entry <?php if($entryData[3] == $user->profileNumber) {?> you<?php } ?>">
+                                        <?=$entryData[2];?>. <a class="ftb-nickname" href="/profile/<?=$entryData[3];?>"><?=$entryData[1];?></a> - <?=$entryData[0];?> point<?php if($entryData[0] != 1) { ?>s<?php } ?>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -286,7 +290,9 @@
                             <div class="profile-title"><span>FRIENDS TO BEAT GLOBALLY</span></div>
                             <div class="block-content">
                                 <?php foreach($user->friendstobeat->Global as $entry => $entryData): ?>
-                                    <div class="friendtobeat-entry"><?=$entryData[2];?>. <span class="ftb-nickname"><?=$entryData[1];?></span> - <?=$entryData[0];?> point<?php if($entryData[0] != 1) { ?>s<?php } ?></div>
+                                    <div class="friendtobeat-entry <?php if($entryData[3] == $user->profileNumber) {?> you<?php } ?>">
+                                        <?=$entryData[2];?>. <a class="ftb-nickname" href="/profile/<?=$entryData[3];?>"><?=$entryData[1];?></a> - <?=$entryData[0];?> point<?php if($entryData[0] != 1) { ?>s<?php } ?>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>

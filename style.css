@@ -808,6 +808,16 @@ input[type=submit] {
     width: 100%;
     padding: 4px 0;
 }
+#profile .friendtobeat-entry.you {
+    font-weight: bold;
+}
+#profile .friendtobeat-entry a {
+    color: #888888;
+    text-decoration: none;
+}
+#profile .friendtobeat-entry a:hover {
+    text-decoration: underline;
+}
 #profile .friendtobeat-entry .ftb-nickname {
     text-transform: uppercase;
 }
