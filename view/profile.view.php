@@ -87,9 +87,8 @@
                         <script type="text/javascript">
                             /* Original code from SteamDB.info */
                             jQuery.ajax({cache: true, dataType: 'jsonp', url: '//api.twitch.tv/api/steam/<?=$user->profileNumber;?>', success: function (data) {
-                                console.log(data);
                                 if (data.name) {
-                                    jQuery('.twitch-linked').append(jQuery('<span>', { text: 'This user has linked his Steam profile to Twitch.TV as ' }).append(jQuery('<a>', { rel: 'nofollow', target: '_blank', href: '//www.twitch.tv/' + data.name, text: data.name }))).slideDown('slow');
+                                    jQuery('.twitch-linked').append(jQuery('<span>', { text: 'This user has linked Steam profile to Twitch.TV as ' }).append(jQuery('<a>', { rel: 'nofollow', target: '_blank', href: '//www.twitch.tv/' + data.name, text: data.name }))).slideDown('slow');
                                 }
                             }});
                         </script>

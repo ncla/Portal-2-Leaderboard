@@ -225,7 +225,7 @@ class Users {
         }
 
         /* The current player itself */
-        $friendstobeat[$this->profileNumber] = array($board[$this->profileNumber], "YOU", ($playerIndex + 1));
+        $friendstobeat[$this->profileNumber] = array($board[$this->profileNumber], $nicknames[$this->profileNumber], ($playerIndex + 1));
 
         /* Previous ones (compensating failed next ones) */
         $i = 1;
