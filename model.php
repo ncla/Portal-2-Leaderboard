@@ -11,13 +11,16 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		protected $db, $leaderboard_ids;
 
         public $topEntryAmount = 20;
-
-		public function __construct() {
-			$this->db = new database;
-		    $newBoardData = $this->get_data($this->returnCheatedBoardCount());
+        public function __construct() {
+            $this->db = new database;
+        }
+        public function fetchNewData() {
+            $newBoardData = $this->get_data($this->returnCheatedBoardCount());
 
             $this->save_data($newBoardData);
+        }
 
+        public function cacheLeaderboard() {
             $SPBoard = self::return_leaderboards_new($mode = "0", $amount = "20");
             $COOPBoard = self::return_leaderboards_new($mode = "1", $amount = "20");
             BoardCache::setBoard("SPBoard", $SPBoard);
@@ -37,7 +40,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
             BoardCache::setBoard("GlobalPointTopBoard", $this->makeGlobalPointBoard($SPPointTopBoard, $COOPPointTopBoard));
 
             BoardCache::setBoard("Nicknames", $this->getAllNicknames());
-		}
+        }
 
 		protected function get_map_ids() {
 			$data = $this->db->query("SELECT steam_id FROM maps ORDER BY id");
@@ -609,10 +612,6 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 
 	class LeastPortals extends Leaderboard {
 		protected $db;
-		public function __construct() {
-			$this->db = new database;
-			$this->get_data($this->get_map_ids());
-		} 
 		protected function get_map_ids() {
 			//$start = microtime(true);
 			$data = $this->db->query("SELECT lp_id FROM maps ORDER BY id");
@@ -638,36 +637,6 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			}
 			//echo "<b>Get Map IDS: </b>".(microtime(true) - $start)."<br>";
 			return $board;
-		}
-		// remember to change Class permission stuff
-		protected function get_data($ids = array()) {
-			$parent = parent::get_data($ids);
-			//var_dump($parent);
-			$cheaters = Leaderboard::get_shitlist();
-			$exceptions = self::get_leastportal_exceptions();
-			//var_dump($cheaters);
-			$start = microtime(true);
-
-			foreach($exceptions as $key => $val) {
-				unset($parent[$val[0]][$val[1]]);
-			}
-
-			foreach($parent as $key => $chamber) {
-				for($i=0;$i<count($cheaters);$i++) {
-					unset($parent[$key][$cheaters[$i]]); // no need to check if the values exist in array, unset is safe to use, doesnt throw error
-				}
-				$parent[$key] = array_slice($parent[$key], 0, 1);
-				$parent[$key] = array_values($parent[$key]); // cleanup from steamid => portal amount array
-			}
-
-			echo "<b>Filter Array: </b>".(microtime(true) - $start)."<br>";
-			$board = $this->return_leastportals_data();
-			foreach($board as $board_key => $board_val) {
-				if($board_val != $parent[$board_key][0]) {
-					// to do: use mysqli prepare statements!
-					$this->db->query("UPDATE leastportals SET portals = '{$parent[$board_key][0]}' WHERE steam_id = '{$board_key}'");
-				}
-			}
 		}
 		public static function return_leastportals_board() {
 			$db = new database;

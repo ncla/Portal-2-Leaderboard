@@ -2,16 +2,16 @@
 include('model.php');
 include('db_conf.php');
 include('boardcache.php');
-new Leaderboard();
-
-//$contents = file_get_contents("lp.txt");
-//
-//$atm = time();
-//$difference = $atm - $contents;
-//
-//if(round($difference) > 3600) {
-//	new LeastPortals;
-//	$currenttime = time();
-//	file_put_contents("lp.txt", $currenttime);
-//}
+$board = new Leaderboard();
+$board->fetchNewData();
+/*
+    APC has different cache when used from command line, see:
+    http://www.php.net/manual/en/function.apc-fetch.php#106360
+*/
+if('127.0.0.1' == $_SERVER["REMOTE_ADDR"]) {
+    $board->cacheLeaderboard();
+}
+else {
+    file_get_contents('http://board.ncla.me/refreshcache.php');
+}
 ?>
