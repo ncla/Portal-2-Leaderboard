@@ -128,7 +128,7 @@
 					<div class="player"><?=$val[0]?></div>
 					<div class="map"><?=$val[4]?></div>
 					<div class="chapter"><?=$val[5]?></div>
-					<div class="newscore"><?=$val[1]?> (<?=$val[8];?>)</div>
+					<div class="newscore"><?=$val[1]?> <?php if($val[8] != null): ?><?="(".$val[8].")";?><?php endif; ?></div>
 					<div class="previousscore"><?=$val[7]?></div>
 					<div class="worldrecord"><?php if($val[3] == 1) { ?><div class="wr"></div><?php } ?></div>
 				</div>
