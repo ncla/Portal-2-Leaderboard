@@ -78,6 +78,9 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 			return $shitlist;
 		}
 		public static function convert_valve_derp_time($time) {
+            if($time) {
+                $time = abs($time);
+            }
 			if(strlen($time) > 2) {
 				$reversed = strrev($time);
 				$miliseconds = strrev(substr($reversed, 0, 2));
@@ -332,6 +335,7 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 		    								   WHERE s.map_id = ?
 		    								   AND s.legit = '1'
 		    								   AND p.banned = '0'
+		    								   GROUP BY s.id
 		    								   ORDER BY s.score ASC, changelog.time_gained ASC
 		    								   LIMIT ".$amount))) {
 			     echo "Prepare failed: (" . $db->errno . ") " . $db->error;
@@ -417,7 +421,9 @@ include("simple_html_dom.php"); // Load Simpe HTML DOM parser
 				$improvement = null;
 				$previous_score = null;
 				if($row["previous_score"] > 0) {
-					$improvement = self::convert_valve_derp_time($row["previous_score"] - $row["score"]);
+                    $scoreDifference = ($row["previous_score"] - $row["score"]);
+					$improvement = ($scoreDifference < 0) ? "+".self::convert_valve_derp_time($scoreDifference) : "-".self::convert_valve_derp_time($scoreDifference);
+
 					$previous_score = self::convert_valve_derp_time($row["previous_score"]);
 				}
 				$changelog[] = array($row["player_name"], 
