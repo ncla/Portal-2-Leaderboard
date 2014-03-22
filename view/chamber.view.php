@@ -104,7 +104,7 @@ $(document).ready(function() {
             <?php if($content[4] == "0"): ?>
             <div class="not-public-chambers" <?php if(isset($_COOKIE["readthisshit"])): ?> style="display:none"<?php endif;?> >
                 <span class="text">
-                    This chamber is not available through official Steam leaderboard pages, but is however accessible through in-game by modifying maplist .txt file. Here is <a href="http://youtu.be/8mtyKGh_e-w">tutorial</a> on how to get them.
+                    This chamber is not available through official Steam leaderboard pages, but is however accessible through in-game by modifying maplist .txt file. Here is <a href="http://youtu.be/8mtyKGh_e-w?t=18m30s">tutorial</a> on how to get them.
                     <span class="close-btn"></span>
                 </span>
             </div>
