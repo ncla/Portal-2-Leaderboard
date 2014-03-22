@@ -171,7 +171,6 @@ class Leaderboard
         $curl_master = curl_multi_init();
         $curl_handles = array();
 
-        var_dump($ids);
         foreach ($ids as $mapID => $amount) {
             $curl_handles[$mapID] = curl_init();
             curl_setopt($curl_handles[$mapID], CURLOPT_URL, "http://steamcommunity.com/stats/Portal2/leaderboards/" . $mapID . "?xml=1&start=1&end=" . $amount);
