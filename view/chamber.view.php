@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/style_chamber.css"></link>
 
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery.domchanged.min.js"></script>
+<!--<script type="text/javascript" src="/js/jquery.domchanged.min.js"></script>-->
 <script type="text/javascript" src="http://code.jquery.com/color/jquery.color-2.1.0.min.js"></script>
 <script type="text/javascript">
 
@@ -94,9 +94,34 @@ $(document).ready(function() {
 				<a class="next_map" href="/chamber/<?=$content[3];?>"></a>
 				<div class="chamberinfo">
 					<div class="chamberchaptername"><?=$content[1][0];?></div>
-					<a href="http://steamcommunity.com/stats/Portal2/leaderboards/<?=$_GET['id'];?>" target="_blank" class="chamberchambername"><?=$content[1][1];?></a>
+					<?php if($content[1][1] == "1"): ?>
+                        <a href="http://steamcommunity.com/stats/Portal2/leaderboards/<?=$_GET['id'];?>" target="_blank" class="chamberchambername"><?=$content[1][1];?></a>
+                    <?php else: ?>
+                        <span class="chamberchambername"><?=$content[1][1];?></span>
+                    <?php endif; ?>
 				</div>
 			</div>
+            <?php if($content[4] == "0"): ?>
+            <div class="not-public-chambers" <?php if(isset($_COOKIE["readthisshit"])): ?> style="display:none"<?php endif;?> >
+                <span class="text">
+                    This chamber is not available through official Steam leaderboard pages, but is however accessible through in-game by modifying maplist .txt file. Here is <a href="http://youtu.be/8mtyKGh_e-w">tutorial</a> on how to get them.
+                    <span class="close-btn"></span>
+                </span>
+            </div>
+                <script type="text/javascript">
+                    $(".not-public-chambers .close-btn").click(function() {
+                        $(".not-public-chambers").slideToggle();
+                        /* Remember that he has read this shit */
+                        var d = new Date();
+                        d.setTime(d.getTime()+(604800000));
+                        var expires = "expires="+d.toGMTString();
+                        document.cookie = "readthisshit=yes; " + expires;
+                    })
+                    $("span.chamberchambername").click(function() {
+                        $(".not-public-chambers").slideToggle();
+                    });
+                </script>
+            <?php endif; ?>
 			<div class="entries">
 			<?php $i=1; foreach($content[0] as $key => $val): ?>
 				<div class="entry <?php if($val[2] == $this->user_id){echo "you";}?> ">

@@ -171,6 +171,7 @@ class Leaderboard
         $curl_master = curl_multi_init();
         $curl_handles = array();
 
+        var_dump($ids);
         foreach ($ids as $mapID => $amount) {
             $curl_handles[$mapID] = curl_init();
             curl_setopt($curl_handles[$mapID], CURLOPT_URL, "http://steamcommunity.com/stats/Portal2/leaderboards/" . $mapID . "?xml=1&start=1&end=" . $amount);
@@ -290,6 +291,13 @@ class Leaderboard
     public function returnCheatedBoardCount()
     {
         $db = new database;
+
+        /* Nuclear if you dont refactor this to bether thing u r a fagget */
+        $data = $db->query("SELECT steam_id FROM maps ORDER BY id");
+        while ($row = $data->fetch_assoc()) {
+            $leaderboard[$row["steam_id"]] = NULL;
+        }
+
         $data = $db->query("SELECT score, scores.profile_number, map_id
                                 FROM scores
                                 INNER JOIN maps ON scores.map_id = maps.steam_id
@@ -298,7 +306,6 @@ class Leaderboard
                                 ORDER BY maps.id
 						        ");
 
-        $leaderboard = array();
         while ($row = $data->fetch_assoc()) {
             $leaderboard[$row["map_id"]][] = array($row["profile_number"], $row["score"]);
         }
@@ -311,7 +318,7 @@ class Leaderboard
     public static function return_leaderboards_new($mode = "0", $amount = "8")
     {
         $db = new database;
-        if (!($stmt = $db->prepare("SELECT chap.chapter_name, maps.name, maps.steam_id
+        if (!($stmt = $db->prepare("SELECT chap.chapter_name, maps.name, maps.steam_id, maps.is_public
 											FROM maps 
 											INNER JOIN chapters AS chap ON maps.chapter_id = chap.id
 											WHERE is_coop = '" . $mode . "'
@@ -323,10 +330,10 @@ class Leaderboard
         if (!$stmt->execute()) {
             echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
         }
-        $stmt->bind_result($chaptername, $mapname, $mapID);
+        $stmt->bind_result($chaptername, $mapname, $mapID, $isPublic);
 
         while ($stmt->fetch()) {
-            $map_data[$mapID] = array($chaptername, $mapname);
+            $map_data[$mapID] = array($chaptername, $mapname, $isPublic);
         }
 
         if (!($stmt_scores = $db->prepare("SELECT IFNULL(p.boardname, s.profile_number), s.score, p.profile_number
@@ -351,7 +358,7 @@ class Leaderboard
             }
             $stmt_scores->bind_result($profileID, $score, $profileNumber);
 
-            $board[$map_data[$key][0]][$map_data[$key][1]][0] = $key;
+            $board[$map_data[$key][0]][$map_data[$key][1]][0] = array($key, $map_data[$key][2]);
 
             while ($stmt_scores->fetch()) {
                 $board[$map_data[$key][0]][$map_data[$key][1]][1][] = array($profileID, self::convert_valve_derp_time($score), $profileNumber);
@@ -364,7 +371,7 @@ class Leaderboard
     {
         $db = new database;
         $id = $db->real_escape_string($id);
-        $data = $db->query("SELECT IFNULL(p.boardname, s.profile_number) AS player_name, s.score, maps.name, chapters.chapter_name, s.profile_number AS userid,
+        $data = $db->query("SELECT IFNULL(p.boardname, s.profile_number) AS player_name, s.score, maps.name, chapters.chapter_name, s.profile_number AS userid, maps.is_public,
 								IFNULL(
 									(SELECT mapz.steam_id FROM (SELECT steam_id, name, id FROM maps) AS mapz WHERE mapz.id < maps.id ORDER BY id DESC LIMIT 1),
 									(SELECT steam_id FROM maps ORDER BY id DESC LIMIT 1)
@@ -381,6 +388,7 @@ class Leaderboard
 								WHERE s.map_id = '{$id}'
 								AND legit = '1'
 								AND p.banned = '0'
+								GROUP BY s.id
 								ORDER BY s.score ASC, changelog.time_gained ASC
 								LIMIT 20
 						        ");
@@ -390,6 +398,7 @@ class Leaderboard
             $chamber[1] = array($row["chapter_name"], $row["name"]);
             $chamber[2] = $row["previous_map"];
             $chamber[3] = $row["next_map"];
+            $chamber[4] = $row["is_public"];
         }
         return $chamber;
     }

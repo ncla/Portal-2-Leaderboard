@@ -25,6 +25,9 @@
 	opacity: 0;
 	color: #323C40;
 }
+span.chamberchambername {
+    cursor: pointer;
+}
 .chamberinfo {
 	margin: 93px auto;
 	text-align: center;
@@ -100,4 +103,26 @@
 }
 .previous_map:hover, .next_map:hover {
 	opacity: 0.6;
+}
+#chamber .not-public-chambers {
+    font-family: Arial, Tahoma;
+    font-size: 11px;
+    background: #3096d1;
+    border-bottom: 1px solid #3096d1;
+    width: 930px;
+    color: #FFF;
+    padding: 15px;
+}
+#chamber .not-public-chambers a {
+    color: #FFF;
+}
+#chamber .not-public-chambers .close-btn {
+    cursor: pointer;
+    background: url(images/fuckingwhitebutton.png);
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    float: right;
+    position: relative;
+    top: -2px;
 }
