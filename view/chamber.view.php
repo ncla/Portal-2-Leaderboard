@@ -124,9 +124,11 @@ $(document).ready(function() {
                         var expires = "expires="+d.toGMTString();
                         document.cookie = "readthisshit=yes; " + expires;
                     })
+                    <?php if($content[4] == "0" && isset($_GET["type"])): ?>
                     $(".chamberchambername").click(function() {
                         $(".not-public-chambers").slideDown();
                     })
+                    <?php endif; ?>
                 </script>
             <?php endif; ?>
 			<div class="entries">
