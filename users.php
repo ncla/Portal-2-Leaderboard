@@ -49,13 +49,8 @@ class Users {
         return false;
     }
     public function hasRecords() {
-        $db = new database;
-        if($data = $db->query("SELECT profile_number FROM scores WHERE profile_number = '$this->profileNumber' AND legit = '1'")) {
-            if($data->num_rows > 0) {
-                return true;
-            }
-        }
-        return false;
+        $boardPoints = BoardCache::getBoard("GlobalPointTopBoard");
+        return (isset($boardPoints[$this->profileNumber])) ? true : false;
     }
 
     public function getChangelog($dayAmount) {
