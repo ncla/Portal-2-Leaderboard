@@ -273,7 +273,7 @@ class Leaderboard
                 } elseif ($score != $db_data_arr[$chamber][$player]) {
                     $this->db->query("UPDATE scores
 									SET score = '{$score}'
-									WHERE profile_number = '{$player}' 
+									WHERE profile_number = '{$player}'
 									AND map_id = '{$chamber}'
 						");
                     $changelog[] = array($player, $score, $chamber, $db_data_arr[$chamber][$player]);
@@ -366,7 +366,7 @@ class Leaderboard
         return $board;
     }
 
-    public static function return_chamber($id = 45467)
+    public static function return_chamber($id = 45467, $limit = 20)
     {
         $db = new database;
         $id = $db->real_escape_string($id);
@@ -389,8 +389,8 @@ class Leaderboard
 								AND p.banned = '0'
 								GROUP BY s.id
 								ORDER BY s.score ASC, changelog.time_gained ASC
-								LIMIT 20
-						        ");
+								LIMIT ".$limit."
+								");
 
         while ($row = $data->fetch_assoc()) {
             $chamber[0][] = array($row["player_name"], self::convert_valve_derp_time($row["score"]), $row["userid"]);
@@ -684,4 +684,26 @@ class LeastPortals extends Leaderboard
     }
 }
 
-?>
+class NonCm extends Leaderboard
+{
+    public function __construct() {
+        parent::__construct();
+        echo "Non official CM Maps!\n";
+    }
+    /* Should refactor get maplist */
+    public function getMaplist() {
+        $data = $this->db->query("SELECT steam_id FROM maps WHERE is_public = '0'");
+        while($row = $data->fetch_assoc()) {
+            $mapList[$row["steam_id"]] = 10000;
+        }
+        return $mapList;
+    }
+    public function fetchNewData()
+    {
+        $newBoardData = $this->get_data($this->getMaplist());
+        $this->save_data($newBoardData);
+    }
+    public function save_into_changelog() {
+        /* Don't want to changelog huge pile of shit */
+    }
+}

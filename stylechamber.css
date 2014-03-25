@@ -104,7 +104,7 @@ span.chamberchambername {
 .previous_map:hover, .next_map:hover {
 	opacity: 0.6;
 }
-#chamber .not-public-chambers {
+#chamber .not-public-chambers, #chamber .chamber-full-explanation {
     font-family: Arial, Tahoma;
     font-size: 11px;
     background: #3096d1;
@@ -113,7 +113,7 @@ span.chamberchambername {
     color: #FFF;
     padding: 15px;
 }
-#chamber .not-public-chambers a {
+#chamber .not-public-chambers a, #chamber .chamber-full-explanation a {
     color: #FFF;
 }
 #chamber .not-public-chambers .close-btn {

@@ -86,17 +86,23 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
- 
-	<div id="content">
+
+    <div id="content">
 		<div id="chamber">
 			<div class="chamberview" style="background-image: url('/images/chambers_full/<?=$_GET['id'];?>.jpg')">
 				<a class="previous_map" href="/chamber/<?=$content[2];?>"></a>
 				<a class="next_map" href="/chamber/<?=$content[3];?>"></a>
 				<div class="chamberinfo">
 					<div class="chamberchaptername"><?=$content[1][0];?></div>
-					<?php if($content[1][1] == "1"): ?>
+					<?php if($content[4] == "1"): ?>
                         <a href="http://steamcommunity.com/stats/Portal2/leaderboards/<?=$_GET['id'];?>" target="_blank" class="chamberchambername"><?=$content[1][1];?></a>
-                    <?php else: ?>
+                    <?php endif; ?>
+
+                    <?php if($content[4] == "0" && !isset($_GET["type"])): ?>
+                        <a href="/chamber/<?=$_GET['id'];?>/full" class="chamberchambername"><?=$content[1][1];?></a>
+                    <?php endif; ?>
+
+                    <?php if($content[4] == "0" && isset($_GET["type"])): ?>
                         <span class="chamberchambername"><?=$content[1][1];?></span>
                     <?php endif; ?>
 				</div>
@@ -108,18 +114,19 @@ $(document).ready(function() {
                     <span class="close-btn"></span>
                 </span>
             </div>
+
                 <script type="text/javascript">
                     $(".not-public-chambers .close-btn").click(function() {
                         $(".not-public-chambers").slideToggle();
-                        /* Remember that he has read this shit */
+                        /* Remember that he has red this shit */
                         var d = new Date();
                         d.setTime(d.getTime()+(604800000));
                         var expires = "expires="+d.toGMTString();
                         document.cookie = "readthisshit=yes; " + expires;
                     })
-                    $("span.chamberchambername").click(function() {
-                        $(".not-public-chambers").slideToggle();
-                    });
+                    $(".chamberchambername").click(function() {
+                        $(".not-public-chambers").slideDown();
+                    })
                 </script>
             <?php endif; ?>
 			<div class="entries">
