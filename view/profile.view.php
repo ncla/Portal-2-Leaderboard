@@ -51,16 +51,39 @@
             <?php if($user->isRegistered): ?>
                 <?php $avatar = ($user->userData->avatar != NULL) ? $user->userData->avatar : "http://media.steampowered.com/steamcommunity/public/images/avatars/f9/f91787b7fb6d4a2cb8dee079ab457839b33a8845_full.jpg"; ?>
                 <div class="userinformation">
-                    <div class="profilebg hasavatar">
-                        <img src="<?php echo $avatar; ?>" alt="" id="profileimage"/>
-                    </div>
-                    <script type="text/javascript">
-                        var Vague = $('#profileimage').Vague({
-                            intensity: 15,
-                            forceSVGUrl: false
-                        });
-                        Vague.blur();
-                    </script>
+                    <?php if($user->profileNumber == "76561198043770492"): ?>
+                        <script type="text/javascript" src="/js/jquery.tubular.1.0.js"></script>
+                        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"></script>
+                        <div id="youtubewrap" style="width: 980px; height: 270px; overflow: hidden;">
+                            <div id="ytyt">
+                                <div id="ytapiplayer">What are you? Living under fucking rock without Flash installed and/or JavaScript disabled?</div>
+                            </div>
+
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    var params = { allowScriptAccess: "always", wmode: "transparent" };
+                                    var atts = { id: "myytplayer" };
+                                    var videoID = "EF_xdvn52As";
+                                    swfobject.embedSWF("http://www.youtube.com/v/"+ videoID +"?enablejsapi=1&iv_load_policy=3&playerapiid=ytplayer&version=3&controls=0&start=91&autoplay=1&disablekb=1&rel=0&showinfo=0","ytapiplayer", 980, 551, "8", null, null, params, atts);
+                                });
+                                function onYouTubePlayerReady(playerId) {
+                                    player = document.getElementById("myytplayer");
+                                    player.mute();
+                                }
+                            </script>
+                        </div>
+                    <?php else: ?>
+                        <div class="profilebg hasavatar">
+                            <img src="<?php echo $avatar; ?>" alt="" id="profileimage"/>
+                        </div>
+                        <script type="text/javascript">
+                            var Vague = $('#profileimage').Vague({
+                                intensity: 15,
+                                forceSVGUrl: false
+                            });
+                            Vague.blur();
+                        </script>
+                    <?php endif; ?>
                     <div class="general">
                         <div class="general-wrapper">
                             <img src="<?php echo $avatar; ?>" alt=""/>

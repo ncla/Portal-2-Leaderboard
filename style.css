@@ -864,3 +864,9 @@ input[type=submit] {
     font-weight: bold;
     color: #FFF;
 }
+#profile #ytyt {
+    width: 980px;
+    height: 551px;
+    position: relative;
+    top: -115px;
+}
