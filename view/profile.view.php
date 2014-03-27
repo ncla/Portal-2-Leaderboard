@@ -54,7 +54,7 @@
                     <?php if($user->profileNumber == "76561198043770492"): ?>
                         <script type="text/javascript" src="/js/jquery.tubular.1.0.js"></script>
                         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"></script>
-                        <div id="youtubewrap" style="width: 980px; height: 270px; overflow: hidden;">
+                        <div id="youtubewrap" style="width: 980px; height: 270px; overflow: hidden; background: #000;">
                             <div id="ytyt">
                                 <div id="ytapiplayer">What are you? Living under fucking rock without Flash installed and/or JavaScript disabled?</div>
                             </div>
