@@ -686,6 +686,7 @@ input[type=submit] {
 }
 #profile .global-stats .block {
     float: left;
+    width: 240px;
 }
 #profile .global-stats .block-container {
     width: 240px;
