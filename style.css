@@ -870,3 +870,8 @@ input[type=submit] {
     position: relative;
     top: -115px;
 }
+#profile .place-expl {
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: bold;
+}

@@ -246,15 +246,12 @@ class Users {
             foreach($chapterData as $map => $mapData) {
                 if(isset($mapData[1][$this->profileNumber])) {
                     $SPPlaces = $SPPlaces + (array_search($this->profileNumber, array_keys($mapData[1])) + 1);
+                    $SPMaps++;
                 }
-                else {
-                    $SPPlaces = $SPPlaces + 21;
-                }
-                $SPMaps++;
             }
         }
 
-        $this->SPAveragePlace = round(($SPPlaces / $SPMaps), 1, PHP_ROUND_HALF_UP);
+        $this->SPAveragePlace = ($SPMaps >= 10) ? (round(($SPPlaces / $SPMaps), 1, PHP_ROUND_HALF_UP)) : NULL;
 
         $COOPLeaderboard = BoardCache::getBoard("COOPBoardPoints");
         $COOPPlaces = 0;
@@ -263,16 +260,13 @@ class Users {
             foreach($chapterData as $map => $mapData) {
                 if(isset($mapData[1][$this->profileNumber])) {
                     $COOPPlaces = $COOPPlaces + (array_search($this->profileNumber, array_keys($mapData[1])) + 1);
+                    $COOPMaps++;
                 }
-                else {
-                    $COOPPlaces = $COOPPlaces + 21;
-                }
-                $COOPMaps++;
             }
         }
-        $this->COOPAveragePlace = round(($COOPPlaces / $COOPMaps), 1, PHP_ROUND_HALF_UP);
+        $this->COOPAveragePlace = ($COOPMaps >= 10) ? (round(($COOPPlaces / $COOPMaps), 1, PHP_ROUND_HALF_UP)) : NULL;
 
-        $this->GlobalAveragePlace = round(($SPPlaces + $COOPPlaces) / ($SPMaps + $COOPMaps), 1, PHP_ROUND_HALF_UP);
+        $this->GlobalAveragePlace = (($SPMaps + $COOPMaps) >= 10) ? (round(($SPPlaces + $COOPPlaces) / ($SPMaps + $COOPMaps), 1, PHP_ROUND_HALF_UP)) : NULL;
     }
     public function getAllRecords() {
         $records = new stdClass();

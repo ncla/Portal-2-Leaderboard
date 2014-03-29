@@ -183,20 +183,35 @@
                     <div class="block-container">
                         <div class="block">
                             <div class="block-inner">
-                                <div class="number"><?php echo $user->SPAveragePlace; ?></div>
-                                <div class="title"><span>AVERAGE PLACE<br/> IN SINGLEPLAYER</span></div>
+                                <div class="number"><?php echo ($user->SPAveragePlace != NULL) ? $user->SPAveragePlace : "NO"; ?></div>
+                                <div class="title">
+                                    <span>
+                                        AVERAGE PLACE<br/> IN SINGLEPLAYER
+                                        <?php if($user->SPAveragePlace == NULL): ?><span class="place-expl" title="To determine your average place in Singleplayer leaderboards, you need minimum 10 entries on leaderboard">(?)</span><?php endif; ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="block">
                             <div class="block-inner">
-                                <div class="number"><?php echo $user->COOPAveragePlace; ?></div>
-                                <div class="title"><span>AVERAGE PLACE<br/> IN COOPERATIVE</span></div>
+                                <div class="number"><?php echo ($user->COOPAveragePlace != NULL) ? $user->COOPAveragePlace : "NO"; ?></div>
+                                <div class="title">
+                                    <span>
+                                        AVERAGE PLACE<br/> IN COOPERATIVE
+                                        <?php if($user->COOPAveragePlace == NULL): ?><span class="place-expl" title="To determine your average place in Cooperative leaderboards, you need minimum 10 entries on leaderboard">(?)</span><?php endif; ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="block">
                             <div class="block-inner">
-                                <div class="number"><?php echo $user->GlobalAveragePlace; ?></div>
-                                <div class="title"><span>AVERAGE PLACE<br/> OVERALL</span></div>
+                                <div class="number"><?php echo ($user->GlobalAveragePlace != NULL) ? $user->GlobalAveragePlace : "NO"; ?></div>
+                                <div class="title">
+                                    <span>
+                                        AVERAGE PLACE<br/> OVERALL
+                                        <?php if($user->GlobalAveragePlace == NULL): ?><span class="place-expl" title="To determine your average place overall, you need minimum 10 entries on leaderboard">(?)</span><?php endif; ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
