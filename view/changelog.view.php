@@ -38,7 +38,7 @@
 			</div>
 		</div>
 	</div>
-
+    <?php include("freemessage.view.php"); ?>
 	<div id="content">
 
 		<div id="filters">

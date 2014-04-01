@@ -53,7 +53,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-
+    <?php include("freemessage.view.php"); ?>
 	<div id="content">
 		<?php 
 			$highlight = $this->logged_player_board_nickname;

@@ -53,8 +53,8 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-
-	<div id="content">
+    <?php include("freemessage.view.php"); ?>
+    <div id="content">
 		<?php 
 		$highlight = $this->logged_player_board_nickname;
 		$chapterNumber=1;foreach($content as $board_key => $board_val): ?>

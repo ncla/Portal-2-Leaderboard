@@ -472,15 +472,15 @@ input[type=submit] {
 	margin-left: 30px;
 }
 .plsgibmoni {
-	width: 95%;
+	width: 97%;
 	height: 25px;
-	margin: 15px auto;
+	margin: 15px auto 0px;
 	background: #F0F0F0;
 	border: 1px solid #A1B9C9;
 	color: #474747;
 	font-size: 11px;
 	font-family: Tahoma, Arial;
-	padding: 12px 0px 0px 20px;
+	padding: 10px;
 }
 .plsgibmoni a {
 	color: #6B6B6B;
