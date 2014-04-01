@@ -6,7 +6,7 @@
 <head>
 <title>Leaderboards</title>
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/style.css?13371337420"></link>
+<link rel="stylesheet" type="text/css" href="/style.css?13371337420swag"></link>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];

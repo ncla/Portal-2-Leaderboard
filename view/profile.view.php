@@ -6,7 +6,7 @@
 <head>
 <title>Leaderboards</title>
 
-<link rel="stylesheet" type="text/css" href="/style.css?13371337420"></link>
+<link rel="stylesheet" type="text/css" href="/style.css?13371337420swag"></link>
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/js/Vague.js"></script>
 <link rel="stylesheet" href="/morris-0.4.3.min.css">
