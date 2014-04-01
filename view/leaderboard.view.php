@@ -6,7 +6,7 @@
 <head>
 <title>Leaderboards</title>
 
-<link rel="stylesheet" type="text/css" href="/style.css"></link>
+<link rel="stylesheet" type="text/css" href="/style.css?13371337420swagswag"></link>
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
 <?php if($this->pro): ?>
 <script type="text/javascript">
@@ -53,7 +53,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-
+    <?php include("freemessage.view.php"); ?>
 	<div id="content">
 		<?php 
 			$highlight = $this->logged_player_board_nickname;

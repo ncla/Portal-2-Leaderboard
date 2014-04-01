@@ -6,7 +6,7 @@
 <head>
 <title>Leaderboards</title>
 
-<link rel="stylesheet" type="text/css" href="/style.css"></link>
+<link rel="stylesheet" type="text/css" href="/style.css?13371337420swagswag"></link>
 <link rel="stylesheet" type="text/css" href="/stylechamber.css"></link>
 
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
@@ -86,9 +86,9 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-
+    <?php include("freemessage.view.php"); ?>
     <div id="content">
-		<div id="chamber">
+        <div id="chamber">
 			<div class="chamberview" style="background-image: url('/images/chambers_full/<?=$_GET['id'];?>.jpg')">
 				<a class="previous_map" href="/chamber/<?=$content[2];?>"></a>
 				<a class="next_map" href="/chamber/<?=$content[3];?>"></a>
