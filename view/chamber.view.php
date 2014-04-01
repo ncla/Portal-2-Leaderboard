@@ -6,7 +6,7 @@
 <head>
 <title>Leaderboards</title>
 
-<link rel="stylesheet" type="text/css" href="/style.css"></link>
+<link rel="stylesheet" type="text/css" href="/style.css?13371337420"></link>
 <link rel="stylesheet" type="text/css" href="/stylechamber.css"></link>
 
 <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
