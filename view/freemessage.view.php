@@ -1,3 +1,0 @@
-<div class="plsgibmoni">
-    Valve/Steam removed leaderboard data from API for maps that were not in challenge mode officially (Finale 1, Container Ride, Portal Carousel etc). The scores on these maps are however still saving, but I can't update my leaderboards anymore for those maps. Non-official maps will be removed eventually from my leaderboards. You can read more about this and how I got these maps on my leaderboard <a href="http://iamncla.tumblr.com/" target="_blank">here</a>.
-</div>
