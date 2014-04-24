@@ -290,26 +290,18 @@ class Leaderboard
     public function returnCheatedBoardCount()
     {
         $db = new database;
-
-        /* Nuclear if you dont refactor this to bether thing u r a fagget */
-        $data = $db->query("SELECT steam_id FROM maps ORDER BY id");
-        while ($row = $data->fetch_assoc()) {
-            $leaderboard[$row["steam_id"]] = NULL;
-        }
-
-        $data = $db->query("SELECT score, scores.profile_number, map_id
-                                FROM scores
-                                INNER JOIN maps ON scores.map_id = maps.steam_id
-                                LEFT JOIN usersnew ON scores.profile_number = usersnew.profile_number
-                                WHERE legit = '0' OR usersnew.banned = '1'
-                                ORDER BY maps.id
-						        ");
+        $data = $db->query("SELECT maps.steam_id, COUNT(*) AS cheatedScoreAmount
+                            FROM (SELECT maps.steam_id
+                                    FROM maps
+                                    INNER JOIN scores ON scores.map_id = maps.steam_id
+                                    LEFT JOIN usersnew ON scores.profile_number = usersnew.profile_number
+                                    WHERE scores.legit = '0' OR usersnew.banned = '1'
+                                    ORDER BY maps.id)
+                            AS maps
+                            GROUP BY steam_id");
 
         while ($row = $data->fetch_assoc()) {
-            $leaderboard[$row["map_id"]][] = array($row["profile_number"], $row["score"]);
-        }
-        foreach ($leaderboard as $mapID => $scores) {
-            $cheatedAmount[$mapID] = count($scores) + $this->topEntryAmount + 2;
+            $cheatedAmount[$row["steam_id"]] = $row["cheatedScoreAmount"] + $this->topEntryAmount + 2;
         }
         return $cheatedAmount;
     }
