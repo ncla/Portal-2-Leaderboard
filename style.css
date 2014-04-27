@@ -404,6 +404,9 @@ input[type=submit] {
 #changelog a:hover {
     text-decoration: underline;
 }
+#filter_options select {
+    height: 31px;
+}
 #otherentries .entry, .datatable #otherentries .entry {
 	width: 100%;
 	background: #ededed;

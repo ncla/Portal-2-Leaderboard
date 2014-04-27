@@ -42,36 +42,16 @@ class Leaderboard
         BoardCache::setBoard("Nicknames", $this->getAllNicknames());
     }
 
-    protected function get_map_ids()
-    {
-        $data = $this->db->query("SELECT steam_id FROM maps ORDER BY id");
-        while ($fuckingretardedmysqlifunctionthatdoesntreturnfuckingarrayinstantly = $data->fetch_assoc()) {
-            $steamids[] = $fuckingretardedmysqlifunctionthatdoesntreturnfuckingarrayinstantly["steam_id"];
-        }
-        return $steamids;
-    }
-
-    public static function get_map_names($mode = 0)
+    public static function getMaps()
     {
         $db = new database;
-        $data = $db->query("SELECT steam_id, name, chapter_id FROM maps ORDER BY maps.id");
-        $maps = array();
-        while ($haha = $data->fetch_assoc()) {
-            $maps[$haha["steam_id"]] = $haha["name"];
+        $data = $db->query("SELECT steam_id, name, chapter_id, chapters.chapter_name FROM maps
+                            INNER JOIN chapters ON maps.chapter_id = chapters.id
+                            ORDER BY maps.id");
+        while ($row = $data->fetch_assoc()) {
+            $maps[$row["chapter_name"]][] = $row["name"];
         }
-        $hoh = microtime(true) - $tt;
         return $maps;
-    }
-
-    public static function get_chapter_names($mode = 0)
-    {
-        $db = new database;
-        $data = $db->query("SELECT id, chapter_name FROM chapters WHERE is_multiplayer = '{$mode}' ORDER BY id");
-        $chapters = array();
-        while ($haha = $data->fetch_assoc()) {
-            $chapters[$haha["id"]] = $haha["chapter_name"];
-        }
-        return $chapters;
     }
 
     public function get_shitlist()

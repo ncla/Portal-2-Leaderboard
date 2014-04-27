@@ -55,15 +55,29 @@
 						<input type="text" name="byplayer_steamid" value="<?=$param['byplayer_steamid'];?>">
 					</div>
 
-					<div style="float: left;" class="input">
-						<label for="profilenumber">Map name</label>
-						<input type="text" name="bychamber_name" value="<?=$param['bychamber_name'];?>">
-					</div>
+                    <div style="float: left;" class="input">
+                        <label for="profilenumber">Chapter name</label>
+                        <select style="width: 100%;" name="bychapter_name">
+                            <option value="">No chapter</option>
+                            <?php foreach(Leaderboard::getMaps() as $chapterName => $maps): ?>
+                                <option value="<?=$chapterName?>"  <?php if($param['bychapter_name'] == $chapterName): ?>selected<?php endif; ?>><?=$chapterName?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
 					<div style="float: left;" class="input">
-						<label for="profilenumber">Chapter name</label>
-						<input type="text" name="bychapter_name" value="<?=$param['bychapter_name'];?>">
+						<label for="profilenumber">Map name</label>
+                        <select style="width: 100%;" name="bychamber_name">
+                            <option value="">No map</option>
+                            <?php foreach(Leaderboard::getMaps() as $chapterName => $maps): ?>
+                                <option disabled><?=$chapterName?></option>
+                                <?php foreach($maps as $mapname): ?>
+                                    <option value="<?=$mapname?>" <?php if($param['bychamber_name'] == $mapname): ?>selected<?php endif; ?>><?=$mapname?></option>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </select>
 					</div>
+
 					<script type="text/javascript">
 					$(document).ready(function() {
 						$(".checkbox").click(function() {
@@ -76,7 +90,8 @@
 							var troll = $("#filters").width() - 500;
 							var troll = troll / 4;
 							// my pro lazy javascript skills. pls dont judge me from this.
-							$("input[type=text]").attr("style", "width:"+troll+"px");
+                            // 04.27.2014 wtf is this shit nuclear do you even CSS m8?
+							$("input[type=text], select").attr("style", "width:"+troll+"px");
 						}
 						inputresize();
 						$(window).resize(inputresize);
