@@ -271,7 +271,7 @@
                                     <div class="chapter-name"><?=$chapter;?></div>
                                     <div class="chapter-content">
                                         <?php foreach($chapterData as $map => $time): ?>
-                                            <div><a href="/chamber/<?=$time[1];?>"><?=$map;?> - <?=$time[0];?></a></div>
+                                            <div><a href="/chamber/<?=$time[1];?>"><?=$map;?> - <?=$time[0];?> <?php echo (isset($user->Worldrecords->SP[$chapter][$map])) ? "[ WR ]" : "";?></a></div>
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endforeach; ?>
@@ -288,7 +288,7 @@
                                     <div class="chapter-name"><?=$chapter;?></div>
                                     <div class="chapter-content">
                                         <?php foreach($chapterData as $map => $time): ?>
-                                            <div><a href="/chamber/<?=$time[1];?>"><?=$map;?> - <?=$time[0];?></a></div>
+                                            <div><a href="/chamber/<?=$time[1];?>"><?=$map;?> - <?=$time[0];?> <?php echo (isset($user->Worldrecords->COOP[$chapter][$map])) ? "[ WR ]" : "";?></a></div>
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endforeach; ?>
