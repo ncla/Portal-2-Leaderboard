@@ -123,14 +123,14 @@
 			</div>
 			<div id="otherentries">
 				<?php foreach ($content as $key => $val): ?>
-				<div class="entry <?php if($val[9] == "1") { ?>hidden<?php } ?>">
-					<div class="time"><?=$val[6]?></div>
-					<div class="player"><?=$val[0]?></div>
-					<div class="map"><?=$val[4]?></div>
-					<div class="chapter"><?=$val[5]?></div>
-					<div class="newscore"><?=$val[1]?> <?php if($val[8] != null): ?><?="(".$val[8].")";?><?php endif; ?></div>
-					<div class="previousscore"><?=$val[7]?></div>
-					<div class="worldrecord"><?php if($val[3] == 1) { ?><div class="wr"></div><?php } ?></div>
+				<div class="entry <?php if($val["banned"] == "1") { ?>hidden<?php } ?>">
+					<div class="time"><?=$val["time_gained"]?></div>
+					<div class="player"><a href="/profile/<?=$val["profile_number"]?>"><?=$val["player_name"]?></a></div>
+					<div class="map"><a href="/chamber/<?=$val["mapid"]?>"><?=$val["name"]?></a></div>
+					<div class="chapter"><?=$val["chapter_name"]?></div>
+					<div class="newscore"><?=$val["score"]?> <?php if($val["improvement"] != null): ?><?="(".$val["improvement"].")";?><?php endif; ?></div>
+					<div class="previousscore"><?=$val["previous_score"]?></div>
+					<div class="worldrecord"><?php if($val["wr_gain"] == 1) { ?><div class="wr"></div><?php } ?></div>
 				</div>
 				<?php endforeach; ?>
 			</div>

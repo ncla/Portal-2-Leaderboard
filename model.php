@@ -406,7 +406,8 @@ class Leaderboard
                 $param[$key] = $db->real_escape_string($result);
             }
         }
-        $changelog_data = $db->query("SELECT IFNULL(usersnew.boardname, changelog.profile_number) AS player_name, changelog.score, changelog.map_id, changelog.wr_gain, maps.name, chapters.chapter_name, changelog.time_gained, changelog.previous_score, usersnew.banned AS banned
+        $changelog_data = $db->query("SELECT IFNULL(usersnew.boardname, changelog.profile_number) AS player_name, changelog.score, changelog.map_id, changelog.wr_gain,
+                                            maps.name, chapters.chapter_name, changelog.time_gained, changelog.previous_score, usersnew.banned AS banned, changelog.profile_number, maps.steam_id AS mapid
 												FROM changelog 
 												INNER JOIN usersnew ON changelog.profile_number = usersnew.profile_number
 												INNER JOIN maps ON changelog.map_id = maps.steam_id
@@ -422,25 +423,15 @@ class Leaderboard
 												");
         $changelog = array();
         while ($row = $changelog_data->fetch_assoc()) {
-            $improvement = null;
-            $previous_score = null;
+            $row["improvement"] = null;
             if ($row["previous_score"] > 0) {
                 $scoreDifference = ($row["previous_score"] - $row["score"]);
-                $improvement = ($scoreDifference < 0) ? "+" . self::convert_valve_derp_time($scoreDifference) : "-" . self::convert_valve_derp_time($scoreDifference);
-
-                $previous_score = self::convert_valve_derp_time($row["previous_score"]);
+                $row["improvement"] = ($scoreDifference < 0) ? "+" . self::convert_valve_derp_time($scoreDifference) : "-" . self::convert_valve_derp_time($scoreDifference);
+                $row["previous_score"] = self::convert_valve_derp_time($row["previous_score"]);
             }
-            $changelog[] = array($row["player_name"],
-                self::convert_valve_derp_time($row["score"]),
-                $row["map_id"],
-                $row["wr_gain"],
-                $row["name"],
-                $row["chapter_name"],
-                $row["time_gained"],
-                $previous_score,
-                $improvement,
-                $row["banned"]
-            );
+            $row["previous_score"] = ($row["previous_score"] == 0) ? NULL : $row["previous_score"];
+            $row["score"] = self::convert_valve_derp_time($row["score"]);
+            $changelog[] = $row;
         }
         return $changelog;
     }
