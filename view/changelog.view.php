@@ -72,7 +72,7 @@
                             <?php foreach(Leaderboard::getMaps() as $chapterName => $maps): ?>
                                 <option disabled><?=$chapterName?></option>
                                 <?php foreach($maps as $mapname): ?>
-                                    <option value="<?=$mapname?>" <?php if($param['bychamber_name'] == $mapname): ?>selected<?php endif; ?>><?=$mapname?></option>
+                                    <option value="<?=$mapname?>" <?php if($param['bychamber_name'] == $mapname): ?>selected<?php endif; ?>>&nbsp;&nbsp;<?=$mapname?></option>
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
                         </select>
