@@ -43,8 +43,9 @@
                 </script>
             <?php endif; ?>
 			<div class="entries">
+            <?php $highlight = (isset($view->User->loggedInUser->board_nickname)) ? $view->User->loggedInUser->board_nickname : NULL; ?>
 			<?php $i=1; foreach($content[0] as $key => $val): ?>
-				<div class="entry <?php if($val[0] == $view->User->loggedInUser->board_nickname){echo "you";}?> ">
+				<div class="entry <?php if($val[0] == $highlight){echo "you";}?> ">
 					<div class="place">#<?=$i;?></div>
 					<div class="name"><a href="/profile/<?=$val[2];?>"><?=$val[0];?></a></div>
 					<div class="score"><?=$val[1];?></div>
