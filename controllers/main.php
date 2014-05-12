@@ -39,9 +39,6 @@ class MainController {
         "validateuser" => array(
             "contentTemplate" => "404.phtml",
         ),
-        "login" => array(
-            "pageTitle" => "Log in"
-        ),
         "logout" => array(
             "pageTitle" => "Log out"
         )
@@ -83,24 +80,10 @@ class MainController {
 
         $view->pageName = @$this->pages[$this->Page]["pageTitle"]; // Shhh my little child
 
-        /* OpenID something something I liked the old SteamAuth better but wtf */
-        if(isset($_GET['login'])) {
-            $openid = new LightOpenID($_SERVER['HTTP_HOST']); // check dev env and set domain?
-            if(!$openid->mode) {
-                $openid->identity = 'http://steamcommunity.com/openid';
-                header('Location: ' . $openid->authUrl());
-            } elseif($openid->mode == 'cancel') {
+        if($this->Page == "validateuser") {
+            if ($user = SteamSignIn::validate()) {
+                Users::processProfile($user);
                 header("Location: /home");
-            } else {
-                if($openid->validate()) {
-                    $id = $openid->identity;
-                    $ptn = "/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/";
-                    preg_match($ptn, $id, $matches);
-                    Users::processProfile($matches[1]);
-                    header("Location: /home");
-                } else {
-                    header("Location: /home");
-                }
             }
         }
 

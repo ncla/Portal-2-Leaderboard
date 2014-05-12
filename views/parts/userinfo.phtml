@@ -1,5 +1,5 @@
 <?php if(!isset($view->User->loggedInUser)): ?>
-	<a href="/?login" id="loginsteam"></a>
+	<a href="<?php echo SteamSignIn::genUrl("http://".$_SERVER['HTTP_HOST']."/?page=validateuser"); ?>" id="loginsteam"></a>
 	<div id="seper"></div>
 	<div id="edition"></div>
 <?php else: ?>

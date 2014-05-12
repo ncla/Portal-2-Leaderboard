@@ -73,7 +73,6 @@ class Users {
         if (!$d) {
             $db->query("INSERT INTO users_ip(profile_number, ip_address) VALUES ('{$user}', '{$ip}')");
         }
-        session_start();
         $_SESSION["user"] = $user;
 
         if ($data) {
