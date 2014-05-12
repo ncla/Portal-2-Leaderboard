@@ -41,7 +41,11 @@
     </div>
     <?php include("parts/message.phtml"); ?>
     <div id="content">
-        <?php require_once($this->pages[$this->Page]["contentTemplate"]); ?>
+        <?php
+            if(isset($this->pages[$this->Page]["contentTemplate"])) {
+                require_once($this->pages[$this->Page]["contentTemplate"]);
+            }
+        ?>
     </div>
     <div class="push"></div>
 </div>
