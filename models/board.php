@@ -315,7 +315,7 @@ class Leaderboard
 		    								   AND s.legit = '1'
 		    								   AND p.banned = '0'
 		    								   GROUP BY s.id
-		    								   ORDER BY s.score ASC, changelog.time_gained ASC
+		    								   ORDER BY s.score ASC, changelog.time_gained ASC, s.profile_number ASC
 		    								   LIMIT " . $amount))
         ) {
             echo "Prepare failed: (" . $db->errno . ") " . $db->error;
@@ -360,7 +360,7 @@ class Leaderboard
 								AND legit = '1'
 								AND p.banned = '0'
 								GROUP BY s.id
-								ORDER BY s.score ASC, changelog.time_gained ASC
+								ORDER BY s.score ASC, changelog.time_gained ASC, s.profile_number ASC
 								LIMIT ".$limit."
 								");
 
