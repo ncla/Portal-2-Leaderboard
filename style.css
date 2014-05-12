@@ -50,6 +50,7 @@ a:hover {
 	float: left;
 	position: relative;
 	top: -4px;
+    text-transform: uppercase;
 }
 #navigation {
 	height: 29px;
