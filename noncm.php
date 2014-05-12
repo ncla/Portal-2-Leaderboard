@@ -1,5 +1,5 @@
 <?php
-include("model.php");
-include("db_conf.php");
+include("loader.php");
+
 $board = new NonCm();
 $board->fetchNewData();

@@ -506,9 +506,9 @@ class Leaderboard
         }
         /* Categorize by game */
         $ladder = array("Portal 1" => array(
-            "Beat the game, No OOB" => $tables[0],
-            "Beat the game" => $tables[1],
-            "Beat the game, Glitchless" => $tables[2]),
+                "Beat the game" => $tables[1],
+                "Beat the game, No OOB" => $tables[0],
+                "Beat the game, Glitchless" => $tables[2]),
             "Portal 2" => array(
                 "Beat the game" => $tables[3],
                 "Beat COOP" => $tables[4],

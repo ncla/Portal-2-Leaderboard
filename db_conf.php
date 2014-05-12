@@ -1,6 +1,6 @@
 <?php
 	class database extends mysqli {
-		public function __construct($host = 'localhost', $user = 'root', $pass = 'root', $db = 'leaderboards') {
+		public function __construct($host = 'localhost', $user = 'root', $pass = 'root', $db = 'leaderboard') {
         	parent::__construct($host, $user, $pass, $db);
         	if ($this->connect_errno) { // ummm, connect_errno vai mysql_errno?
 				trigger_error($this->connect_error);

@@ -1,0 +1,14 @@
+<?php if(!isset($view->User->loggedInUser)): ?>
+	<a href="/?login" id="loginsteam"></a>
+	<div id="seper"></div>
+	<div id="edition"></div>
+<?php else: ?>
+    <?php $loggedUser = $view->User->loggedInUser; ?>
+	<div id="welcome" class="threelines">
+		<div class="firstline">Welcome back, <?=$loggedUser->nickname;?></div>
+		<div>Profile ID - <?=$loggedUser->profile_number;?></div>
+        <div><a href="/editprofile">Edit profile</a> | <a href="/profile/<?=$loggedUser->profile_number;?>">View profile</a> | <a href="/logout">Log out</a></div>
+	</div><img class="avatar" src="<?=$loggedUser->avatar;?>" alt="" />
+	<div id="seper"></div>
+	<div id="edition"></div>
+<?php endif; ?>

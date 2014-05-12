@@ -1,0 +1,16 @@
+			<div class="chapterinfo">
+                <h1 class="chapternumber">Profile</h1>
+                <h1 class="chaptername">Edit your profile</h1>
+			</div>
+			<div class="normalcontent editprofile">
+                <?php if(isset($content["msg"])): ?>
+                    <div><?=$content["msg"];?></div>
+                <?php endif; ?>
+                <form action="/editprofile" method="post">
+                    <label for="twitch">Twitch username</label>
+                    <input type="text" name="twitch" value="<?=$content["inputs"]->twitch;?>"/>
+                    <label for="youtube">Youtube username</label>
+                    <input type="text" name="youtube" value="<?=$content["inputs"]->youtube;?>"/>
+                    <button type="submit">Save</button>
+                </form>
+			</div>

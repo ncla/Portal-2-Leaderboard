@@ -3,6 +3,8 @@ class Users {
 
     public function __construct($profileNumber) {
         $this->profileNumber = $profileNumber;
+    }
+    public function getProfileData() {
         $this->hasRecords = $this->hasRecords();
         $this->isRegistered = $this->isRegistered();
 
@@ -22,7 +24,69 @@ class Users {
             $this->getAllRecords();
         }
     }
+    public static function isLoggedIn() {
+        return isset($_SESSION["user"]);
+    }
+    public static function getLoggedInUser() {
+        return $_SESSION["user"];
+    }
+    public function getLoggedInUserData() {
+        $db = new database();
+        $user_ident = $this->profileNumber;
+        $data = $db->query("SELECT profile_number, avatar, steamname as nickname, boardname AS board_nickname
+									  FROM usersnew
+									  WHERE profile_number = '{$user_ident}' LIMIT 1");
+        while ($row = $data->fetch_object()) {
+            $this->loggedInUser = $row;
+        }
+        return $this;
+    }
+    public static function saveProfile($user, $twitch = "", $youtube = "") {
+        $db = new database();
+        $db->query("UPDATE usersnew SET twitch = '$twitch', youtube = '$youtube' WHERE profile_number = '$user'");
+    }
+    public static function getEditProfileData($user) {
+        $db = new database();
+        return $db->query("SELECT twitch, youtube FROM usersnew WHERE profile_number = '$user'")->fetch_object();
+    }
+    /*
+     * Old code, revise pls.
+     */
+    public static function processProfile($user) {
+        $db = new database;
+        $ch = curl_init("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=C7A6348E5BE69F339FD2898E4ABBD8A7&steamids=" . $user);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $content = curl_exec($ch);
+        curl_close($ch);
 
+        $userinfo = json_decode($content, true);
+        $nickname = htmlspecialchars($db->real_escape_string($userinfo["response"]["players"][0]["personaname"]));
+        $avatar_url = $userinfo["response"]["players"][0]["avatarfull"];
+
+        $data = $db->query("SELECT profile_number, boardname FROM usersnew WHERE profile_number = '{$user}' LIMIT 1")->fetch_assoc();
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        // ja lietotaja IP adrese nav musu IP tabula.
+        $d = $db->query("SELECT ip_address FROM users_ip WHERE ip_address = '{$ip}' AND profile_number = '{$user}'")->fetch_assoc();
+        if (!$d) {
+            $db->query("INSERT INTO users_ip(profile_number, ip_address) VALUES ('{$user}', '{$ip}')");
+        }
+        session_start();
+        $_SESSION["user"] = $user;
+
+        if ($data) {
+            $db->query("UPDATE usersnew SET avatar = '{$avatar_url}', steamname = '{$nickname}' WHERE profile_number = '{$user}'");
+        } // ja lietotajs nav ieprieksh ielogojies.
+        elseif (!$data) {
+            $db->query("INSERT INTO usersnew(profile_number, avatar, steamname) VALUES ('{$user}', '{$avatar_url}', '{$nickname}')");
+        }
+        // update boardname if its null
+        if ($data["boardname"] == NULL) {
+            $db->query("UPDATE usersnew SET boardname = '{$nickname}' WHERE profile_number = '{$user}' AND boardname IS NULL");
+        }
+    }
     public function getPlayerCheatedScores() {
         foreach(Leaderboard::getBannedScores() as $entry => $entryData) {
             $cheatedScores = false;

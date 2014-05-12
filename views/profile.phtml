@@ -1,58 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-<title>Leaderboards</title>
-
-<link rel="stylesheet" type="text/css" href="/style.css?13371337420swagswag"></link>
-<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/js/Vague.js"></script>
-<link rel="stylesheet" href="/morris-0.4.3.min.css">
-<script src="/js/raphael-min.js"></script>
-<script src="/js/morris-0.4.3.min.js"></script>
-
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-43126557-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-</head>
-
-<body>
-<div id="wrapper">
-	<div id="header">
-		<div id="header_left">
-			<h2 id="sitetitle">PORTAL 2 LEADERBOARDS</h2>
-			<div id="navigation">
-				<?php include("navigation.view.php"); ?>
-			</div>
-		</div>
-
-		<div id="header_right">
-			<div id="userinfo">
-				<?php include("userinfo.view.php"); ?>
-			</div>
-		</div>
-	</div>
-
-	<div id="content">
         <div id="profile">
-            <?php $user = $content; ?>
+            <?php $user = $view->profile; ?>
             <?php if($user->isRegistered): ?>
                 <?php $avatar = ($user->userData->avatar != NULL) ? $user->userData->avatar : "http://media.steampowered.com/steamcommunity/public/images/avatars/f9/f91787b7fb6d4a2cb8dee079ab457839b33a8845_full.jpg"; ?>
                 <div class="userinformation">
                     <?php if($user->profileNumber == "76561198043770492"): ?>
-                        <script type="text/javascript" src="/js/jquery.tubular.1.0.js"></script>
                         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"></script>
                         <div id="youtubewrap" style="width: 980px; height: 270px; overflow: hidden; background: #000;">
                             <div id="ytyt">
@@ -378,17 +329,3 @@
                 </div>
             <?php endif; ?>
         </div>
-	</div>
-
-<div class="push"></div>
-
-</div>
-<!--
-    We are the universe. Destroying itself.
-    Observing itself.
--->
-<?php include("footer.view.php"); ?>
-
-</body>
-
-</html>

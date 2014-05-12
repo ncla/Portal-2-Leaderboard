@@ -1,63 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-<title>Leaderboards</title>
-
-<link rel="stylesheet" type="text/css" href="/style.css?13371337420swagswag"></link>
-<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<?php if($this->pro): ?>
-<script type="text/javascript">
-$(document).ready(function() {
-	$(".youtube_icon").click(function() {
-		var chamber = $(this).parent().parent().parent().parent();
-		var time = $(chamber).find(".score:eq(0)").html();
-		var chamber_name = $(chamber).find(".titlebg a:eq(0)").html();
-		var c_name = chamber_name.replace(" ", "+").replace(/[0-9]/g, '');
-		var url = "https://www.youtube.com/results?search_query=portal+2+"+c_name+"+"+time;
-		window.open(url, '_blank');
-	})
-})
-</script>
-<?php endif; ?>
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-43126557-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
-</head>
-
-<body>
-<div id="wrapper">
-	<div id="header">
-		<div id="header_left">
-			<h2 id="sitetitle">PORTAL 2 LEADERBOARDS</h2>
-			<div id="navigation">
-				<?php include("navigation.view.php"); ?>
-			</div>
-		</div>
-
-		<div id="header_right">
-			<div id="userinfo">
-				<?php include("userinfo.view.php"); ?>
-			</div>
-		</div>
-	</div>
-    <?php include("freemessage.view.php"); ?>
-    <div id="content">
-		<?php 
-		$highlight = $this->logged_player_board_nickname;
-		$chapterNumber=1;foreach($content as $board_key => $board_val): ?>
+		<?php
+        $highlight = @$view->User->loggedInUser->board_nickname;
+		$chapterNumber=1;foreach($view->board as $board_key => $board_val): ?>
 			<div class="chapterinfo">
 			<h1 class="chapternumber">Chapter 0<?php echo $chapterNumber;$chapterNumber++;?></h1>
 			<h1 class="chaptername"><?=$board_key;?></h1>
@@ -72,7 +15,7 @@ $(document).ready(function() {
 						<div class="titlebghelper"></div>
 						<div class="titlebg"><a href="/chamber/<?=$chamb_val[0][0];?>"><?=$chamb_key; ?></a></div>
 						<div class="chamber_icons">
-							<?php if($this->pro): ?><span class="icons youtube_icon"></span><?php endif; ?>
+							<span class="icons youtube_icon"></span>
 							<a href="<?php echo "http://steamcommunity.com/stats/Portal2/leaderboards/".$chamb_val[0][0]; ?>" class="icons steam_icon" target="_blank"></a>
 						</div>
 					</div>
@@ -120,15 +63,15 @@ $(document).ready(function() {
 		
 
 		<?php endforeach; ?>
-
-	</div>
-
-<div class="push"></div>
-
-</div>
-
-<?php include("footer.view.php"); ?>
-
-</body>
-
-</html>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".youtube_icon").click(function() {
+                    var chamber = $(this).parent().parent().parent().parent();
+                    var time = $(chamber).find(".score:eq(0)").html();
+                    var chamber_name = $(chamber).find(".titlebg a:eq(0)").html();
+                    var c_name = chamber_name.replace(" ", "+").replace(/[0-9]/g, '');
+                    var url = "https://www.youtube.com/results?search_query=portal+2+"+c_name+"+"+time;
+                    window.open(url, '_blank');
+                })
+            })
+        </script>
