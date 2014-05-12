@@ -12,6 +12,7 @@ class View {
         $this->siteTitle = "P2 Board &#187; ";
         $this->pageName = "Home";
         $this->addJs("/js/jquery-1.10.2.min.js");
+        $this->addJs("/js/main.js");
         $this->addCss("/style.css");
     }
     public function addJs($path) {
