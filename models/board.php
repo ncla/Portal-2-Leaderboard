@@ -162,6 +162,8 @@ class Leaderboard
             ));
             curl_setopt($curl_handles[$mapID], CURLOPT_SSL_VERIFYPEER, FALSE);
 
+            curl_setopt($curl_handles[$mapID], CURLOPT_TIMEOUT, 30);
+            curl_setopt($curl_handles[$mapID], CURLOPT_DNS_CACHE_TIMEOUT, 300);
 
             curl_multi_add_handle($curl_master, $curl_handles[$mapID]);
         }
@@ -189,30 +191,32 @@ class Leaderboard
         foreach ($ids as $mapID => $amount) {
             curl_multi_remove_handle($curl_master, $curl_handles[$mapID]);
             $curlgetcontent = curl_multi_getcontent($curl_handles[$mapID]);
-            $xml = microtime(true);
-            try {
-                $leaderboard = simplexml_load_string(utf8_encode($curlgetcontent));
-            } catch (Exception $e) {
-                throw new Exception("SimpleXML error: " . $e);
-            }
-
-            libxml_use_internal_errors(true);
-            $sxe = simplexml_load_string($leaderboard);
-            if ($sxe === false) {
-                foreach (libxml_get_errors() as $error) {
-                    throw new Exception ("<b>SimpleXML error: </b>" . $error->message . '\n');
+            if($curlgetcontent) {
+                $xml = microtime(true);
+                try {
+                    $leaderboard = simplexml_load_string(utf8_encode($curlgetcontent));
+                } catch (Exception $e) {
+                    throw new Exception("SimpleXML error: " . $e);
                 }
-            }
 
-            foreach ($leaderboard->entries as $key2 => $val2) {
-                foreach ($val2 as $d => $b) {
-                    $steamid = $b->steamid;
-                    $score = $b->score;
-                    $data[$mapID][(string)$steamid] = (string)$score;
+                libxml_use_internal_errors(true);
+                $sxe = simplexml_load_string($leaderboard);
+                if ($sxe === false) {
+                    foreach (libxml_get_errors() as $error) {
+                        throw new Exception ("<b>SimpleXML error: </b>" . $error->message . '\n');
+                    }
                 }
+
+                foreach ($leaderboard->entries as $key2 => $val2) {
+                    foreach ($val2 as $d => $b) {
+                        $steamid = $b->steamid;
+                        $score = $b->score;
+                        $data[$mapID][(string)$steamid] = (string)$score;
+                    }
+                }
+                $tt = microtime(true) - $xml;
+                $xml_total = $xml_total + $tt;
             }
-            $tt = microtime(true) - $xml;
-            $xml_total = $xml_total + $tt;
         }
         curl_multi_close($curl_master);
 
@@ -220,6 +224,7 @@ class Leaderboard
 
         $total_moo_time = microtime(true) - $moo_time;
         echo "Leaderboard Fetchnew cURL: " . $total_moo_time . "\n";
+        var_dump($data); die;
         return $data;
     }
 
