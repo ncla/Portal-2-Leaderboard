@@ -51,7 +51,8 @@ class MainController {
         $this->Page = $this->getParam("page");
         $this->ID = $this->getParam("id");
         $this->Type = $this->getParam("type");
-
+        
+        session_set_cookie_params(86400);
         session_start();
 
         $this->manageRequest();
