@@ -224,7 +224,6 @@ class Leaderboard
 
         $total_moo_time = microtime(true) - $moo_time;
         echo "Leaderboard Fetchnew cURL: " . $total_moo_time . "\n";
-        var_dump($data); die;
         return $data;
     }
 
