@@ -296,20 +296,20 @@
                             <?php endforeach; ?>
                         </div>
                     </div>
-                    <?php elseif(!$user->hasRecords): ?>
-                        <div class="profile-title"><span>NO RECORDS</span></div>
-                        <div class="noactivity">
-                                 <span class="noact-wrap">
-                                      <span>This user does not have any records.</span>
-                                      <span class="manualsearch">We can't generate any information without leaderboard data. So sad. :(</span>
-                                 </span>
-                        </div>
                     <?php elseif($user->userData->banned == 1): ?>
                         <div class="profile-title"><span>EXCEPTION</span></div>
                         <div class="noactivity">
                              <span class="noact-wrap">
                                   <span>This user is banned.</span>
                                   <span class="manualsearch">Such shame.</span>
+                             </span>
+                        </div>
+                    <?php elseif(!$user->hasRecords): ?>
+                        <div class="profile-title"><span>NO RECORDS</span></div>
+                        <div class="noactivity">
+                             <span class="noact-wrap">
+                                 <span>This user does not have any records.</span>
+                                 <span class="manualsearch">We can't generate any information without leaderboard data. So sad. :(</span>
                              </span>
                         </div>
                     <?php else: ?>
