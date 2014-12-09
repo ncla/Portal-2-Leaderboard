@@ -1,0 +1,16 @@
+Options +FollowSymLinks
+
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule .? - [L]
+
+RewriteRule ^([^/]*)$ index.php?page=$1 [L]
+RewriteRule ^([^/]*)/([^/]*)$ index.php?page=$1&id=$2 [L]
+RewriteRule ^([^/]*)/([^/]*)/([^/]*)$ index.php?page=$1&id=$2&type=$3 [L]
+
+<FilesMatch "\.(|jpg|jpeg|png|ico|eot|svg|ttf|wolf)$">
+  Header set Cache-Control "max-age=86400"
+</FilesMatch>

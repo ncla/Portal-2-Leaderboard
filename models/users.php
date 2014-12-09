@@ -54,7 +54,7 @@ class Users {
      */
     public static function processProfile($user) {
         $db = new database;
-        $ch = curl_init("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=C7A6348E5BE69F339FD2898E4ABBD8A7&steamids=" . $user);
+        $ch = curl_init("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={API KEY HERE}&steamids=" . $user);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $content = curl_exec($ch);
