@@ -95,7 +95,7 @@
 			</div>
 			<div id="otherentries">
 				<?php foreach ($view->scoreUpdates as $key => $val): ?>
-				<div class="entry <?php if($val["banned"] == "1") { ?>hidden<?php } ?>">
+				<div class="entry">
 					<div class="time"><?=$val["time_gained"]?></div>
 					<div class="player"><a href="/profile/<?=$val["profile_number"]?>"><?=$val["player_name"]?></a></div>
 					<div class="map"><a href="/chamber/<?=$val["mapid"]?>"><?=$val["name"]?></a></div>

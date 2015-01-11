@@ -402,6 +402,7 @@ class Leaderboard
 												AND changelog.profile_number LIKE '%{$param['byplayer_steamid']}%'
 												AND maps.is_coop LIKE '%{$param['bytype']}%'
 												AND changelog.wr_gain LIKE '%{$param['wr']}%'
+												AND banned = 0
 												ORDER BY changelog.time_gained DESC
 												LIMIT " . $param['amount'] . "
 												");
