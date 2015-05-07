@@ -48,9 +48,11 @@ class MainController {
     {
         $this->startupTimestamp = microtime(true);
 
-        $this->Page = $this->getParam("page");
-        $this->ID = $this->getParam("id");
-        $this->Type = $this->getParam("type");
+        $request = explode('/', $_SERVER['REQUEST_URI']);
+
+        $this->Page = (isset($request[1])) ? $request[1] : NULL;
+        $this->ID = (isset($request[2])) ? $request[2] : NULL;
+        $this->Type = (isset($request[3])) ? $request[3] : NULL;
 
         ini_set('session.cookie_lifetime','86400');
         session_set_cookie_params(86400);
@@ -73,7 +75,7 @@ class MainController {
             $this->Page = "404";
         }
 
-        if($this->Page == "validateuser") {
+        if(isset($_GET['page']) && $_GET['page'] == "login") {
             if ($user = SteamSignIn::validate()) {
                 Users::processProfile($user);
             }
@@ -86,14 +88,6 @@ class MainController {
         }
 
         $view->pageName = @$this->pages[$this->Page]["pageTitle"]; // Shhh my little child
-
-        if($this->Page == "validateuser") {
-            if ($user = SteamSignIn::validate()) {
-                Users::processProfile($user);
-                header("Location: /home");
-            }
-        }
-
 
         if (Users::isLoggedIn()) {
             $view->User = new Users(Users::getLoggedInUser());

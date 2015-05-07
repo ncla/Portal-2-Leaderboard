@@ -1,19 +1,19 @@
-        <?php $content = $view->chamber; ?>
+<?php $content = $view->chamber; ?>
         <div id="chamber">
-			<div class="chamberview" style="background-image: url('/images/chambers_full/<?=$_GET['id'];?>.jpg')">
+			<div class="chamberview" style="background-image: url('/images/chambers_full/<?=$this->ID;?>.jpg')">
 				<a class="previous_map" href="/chamber/<?=$content[2];?>"></a>
 				<a class="next_map" href="/chamber/<?=$content[3];?>"></a>
 				<div class="chamberinfo">
 					<div class="chamberchaptername"><?=$content[1][0];?></div>
 					<?php if($content[4] == "1"): ?>
-                        <a href="http://steamcommunity.com/stats/Portal2/leaderboards/<?=$_GET['id'];?>" target="_blank" class="chamberchambername"><?=$content[1][1];?></a>
+                        <a href="http://steamcommunity.com/stats/Portal2/leaderboards/<?=$this->ID;?>" target="_blank" class="chamberchambername"><?=$content[1][1];?></a>
                     <?php endif; ?>
 
-                    <?php if($content[4] == "0" && !isset($_GET["type"])): ?>
-                        <a href="/chamber/<?=$_GET['id'];?>/full" class="chamberchambername"><?=$content[1][1];?></a>
+                    <?php if($content[4] == "0" && !$this->Type): ?>
+                        <a href="/chamber/<?=$this->ID;?>/full" class="chamberchambername"><?=$content[1][1];?></a>
                     <?php endif; ?>
 
-                    <?php if($content[4] == "0" && isset($_GET["type"])): ?>
+                    <?php if($content[4] == "0" && $this->Type): ?>
                         <span class="chamberchambername"><?=$content[1][1];?></span>
                     <?php endif; ?>
 				</div>
@@ -35,7 +35,7 @@
                         var expires = "expires="+d.toGMTString();
                         document.cookie = "readthisshit=yes; " + expires;
                     })
-                    <?php if($content[4] == "0" && isset($_GET["type"])): ?>
+                    <?php if($content[4] == "0" && $this->Type): ?>
                     $(".chamberchambername").click(function() {
                         $(".not-public-chambers").slideDown();
                     })

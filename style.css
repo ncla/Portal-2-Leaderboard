@@ -94,7 +94,7 @@ a:hover {
 	display: block;
 	width: 154px;
 	height: 23px;
-	background: url("images/signsteam.png");
+	background: url("images/signsteambtn.png");
 	float: left;
 	margin: 15px 25px 0px 0px;
 }
@@ -113,7 +113,7 @@ a:hover {
 #edition {
 	float: left;
 	margin: 5px 0px 0px 15px;
-	background: url(../images/cakeicon.png) no-repeat;
+	background: url(/images/cakeicon.png) no-repeat;
 	background-size: cover;
 	width: 40px;
 	height: 40px;
@@ -261,11 +261,11 @@ a:hover {
 	margin: 0px 5px 0px 0px;
 }
 .youtube_icon {
-	background: url("images/youtube_icon.png");
+	background: url("/images/chamber_yt_icon.png");
     cursor: pointer;
 }
 .steam_icon {
-	background: url("images/steam_icon.png");
+	background: url("/images/steam_icon.png");
 }
 .chamber_icons {
 	position: relative;
@@ -573,13 +573,13 @@ input[type=submit] {
 #ss-p2, #ss-p1 {
 	height: 200px;
 	width: 100%;
-	background: url(../images/ss_p2.jpg);
+	background: url(/images/ss_p2.jpg);
 	background-size: cover;
 	background-position: center center;
 	position: relative;
 }
 #ss-p1 {
-	background: url(../images/ss_p1.jpg);
+	background: url(/images/ss_p1.jpg);
 }
 #ss-p1 h1, #ss-p2 h1 {
 	color: #f7fcff;
@@ -855,7 +855,7 @@ input[type=submit] {
     background-image: url(images/twitchicon.png);
 }
 #profile .usericons .youtube {
-    background-image: url(images/youtubeicon.png);
+    background-image: url(images/yticon_profile.png);
 }
 #profile .usericons .steam {
     background-image: url(images/steamicon.png);
