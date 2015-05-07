@@ -68,7 +68,7 @@ class MainController {
 
     public function manageRequest() {
         $view = new View();
-        if(isset($this->Page) == NULL) {
+        if($this->Page == NULL) {
             $this->Page = "home";
         }
         if (!isset($this->pages[$this->Page])) {
