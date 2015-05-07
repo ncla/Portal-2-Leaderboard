@@ -23,14 +23,15 @@
 				</div>
 				<div class="chamber_scores">
 
-												<?php if($chamb_val[1][0][1] == $chamb_val[1][1][1]) {
-													$twoplayer_highlight = false;
-													if($chamb_val[1][0][0] == $highlight || $chamb_val[1][1][0] == $highlight) {
-														$twoplayer_highlight = true;
-													}
-													$chamb_val[1][0][0] .= " & ".$chamb_val[1][1][0];
-													unset($chamb_val[1][1]);
-												} 
+												<?php
+                                                    $twoplayer_highlight = false;
+                                                    if($chamb_val[1][0][1] == $chamb_val[1][1][1]) {
+                                                        if($chamb_val[1][0][0] == $highlight || $chamb_val[1][1][0] == $highlight) {
+                                                            $twoplayer_highlight = true;
+                                                        }
+                                                        $chamb_val[1][0][0] .= " & ".$chamb_val[1][1][0];
+                                                        unset($chamb_val[1][1]);
+												    }
 												?>
 												<?php $i = 0; ?>
 												<?php foreach($chamb_val[1] as $pl_key => $pl_val): ?>
